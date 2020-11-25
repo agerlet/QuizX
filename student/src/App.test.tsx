@@ -2,8 +2,15 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders quiz options', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const options = screen.getByTestId(/options/i);
+  expect(options).toBeInTheDocument();
 });
+
+test('renders quiz body', () => {
+  render(<App />);
+  const quizBody = screen.getByTestId(/body/i);
+  expect(quizBody).toBeInTheDocument();
+});
+

@@ -15,7 +15,10 @@ function App() {
 
     return (
         <div className="quiz">
-            <ul className="options">
+            <ul 
+                className="options" 
+                data-testid="options"
+            >
                 <DragDropContainer
                     targetKey="blank"
                     dragData={{label: "凉凉"}}
@@ -62,7 +65,10 @@ function App() {
                     </li>
                 </DragDropContainer>
             </ul>
-            <div className="body">
+            <div 
+                className="body"
+                data-testid={"body"}
+            >
                 <p>
                     亮亮：冬冬快看！下雪了！
                 </p>
