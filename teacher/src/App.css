@@ -1,38 +1,38 @@
 .App {
   text-align: center;
+  background-color: beige;
+  min-height: 10rem;
+  min-width: 20rem;
+  margin: 2rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App table {
+  width: 100%;
+}
+.App thead {
+  font-weight: bold;
+}
+.App td {
+  height: 2rem;
+}
+.App tbody tr:nth-child(odd){
+  background-color: floralwhite;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App tbody tr:hover {
+  background-color: peachpuff;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.App .chinese-name,
+.App .english-name {
+  width: 15%
 }
-
-.App-link {
-  color: #61dafb;
+.App .url {
+  width: 25%;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App .results {
+  width: auto;
+}
+.App .Elaspe {
+  width: 15%;
 }

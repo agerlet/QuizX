@@ -1,0 +1,4 @@
+{
+  "serviceBaseUrl": "https://localhost:5001/api/quiz",
+  "studentPortalUrl": "http://localhost:4000/quiz"
+}
