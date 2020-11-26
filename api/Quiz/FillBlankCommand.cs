@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -29,6 +30,7 @@ namespace api.Quiz
     {
         private readonly Repository _repository;
         private readonly ILogger<FillBlankCommandHandler> _logger;
+        private static string[] _answers = new[] { "雪花","变成","甜","尝一尝","甜","凉凉" };
 
         public FillBlankCommandHandler(Repository repository, ILogger<FillBlankCommandHandler> logger)
         {
@@ -41,7 +43,9 @@ namespace api.Quiz
             _logger.LogInformation($"Received FillBlankCommand ({JsonConvert.SerializeObject(command)})");
             if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult) new BadRequestObjectResult(command));
             
-            _repository.Save(command.ToFillBlankModel());
+            var model = command.ToFillBlankModel();
+            model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
+            _repository.Save(model);
             return Task.FromResult((IActionResult)new OkObjectResult(command));
         }
     }

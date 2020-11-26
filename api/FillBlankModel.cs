@@ -7,5 +7,6 @@ namespace api
         public string StudentId { get; set; }
         public string[] Answers { get; set; }
         public DateTime ArriveAt { get; set; }
+        public DateTime? CompleteAt { get; set; }
     }
 }

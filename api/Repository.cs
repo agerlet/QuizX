@@ -13,6 +13,7 @@ namespace api
             if (_inMemoryDb.ContainsKey(model.StudentId))
             {
                 _inMemoryDb[model.StudentId].Answers = model.Answers;
+                _inMemoryDb[model.StudentId].CompleteAt = model.CompleteAt;
             }
             else
             {
