@@ -13,6 +13,16 @@ namespace api.Quiz
     {
         public string StudentId { get; set; }
         public string[] Answers { get; set; }
+
+        public FillBlankModel ToFillBlankModel()
+        {
+            var fillBlankModel = new FillBlankModel
+            {
+                StudentId = StudentId,
+                Answers = Answers
+            };
+            return fillBlankModel;
+        }
     }
 
     public class FillBlankCommandHandler : IRequestHandler<FillBlankCommand, IActionResult>
@@ -31,7 +41,7 @@ namespace api.Quiz
             _logger.LogInformation($"Received FillBlankCommand ({JsonConvert.SerializeObject(command)})");
             if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult) new BadRequestObjectResult(command));
             
-            _repository.Save(command);
+            _repository.Save(command.ToFillBlankModel());
             return Task.FromResult((IActionResult)new OkObjectResult(command));
         }
     }

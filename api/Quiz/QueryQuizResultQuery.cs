@@ -23,7 +23,7 @@ namespace api.Quiz
         public Task<IActionResult> Handle(QueryQuizResultQuery request, CancellationToken cancellationToken)
         {
             var results = _repository.Query();
-            _logger.LogInformation($"Found {results.Length} FillBlankCommand(s).");
+            _logger.LogInformation($"Found {results.Length} answer(s).");
             return Task.FromResult((IActionResult)new OkObjectResult(results)); 
         }
     }

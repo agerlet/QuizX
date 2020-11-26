@@ -1,28 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using api.Quiz;
-using MediatR;
 
 namespace api
 {
     public class Repository
     {
-        private readonly Dictionary<string, FillBlankCommand> _inMemoryDb = new Dictionary<string, FillBlankCommand>();
+        private readonly Dictionary<string, FillBlankModel> _inMemoryDb = new Dictionary<string, FillBlankModel>();
         
-        public void Save(FillBlankCommand command)
+        public void Save(FillBlankModel model)
         {
-            if (_inMemoryDb.ContainsKey(command.StudentId))
+            if (_inMemoryDb.ContainsKey(model.StudentId))
             {
-                _inMemoryDb[command.StudentId] = command;
+                _inMemoryDb[model.StudentId].Answers = model.Answers;
             }
             else
             {
-                _inMemoryDb.Add(command.StudentId, command);
+                model.ArriveAt = DateTime.UtcNow;
+                _inMemoryDb.Add(model.StudentId, model);
             }
         }
 
-        public FillBlankCommand[] Query()
+        public FillBlankModel[] Query()
         {
             return _inMemoryDb.Select(_ => _.Value).ToArray();
         }
