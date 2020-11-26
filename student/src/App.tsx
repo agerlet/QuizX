@@ -5,17 +5,21 @@ import {DragDropContainer, DropTarget} from 'react-drag-drop-container';
 import api from './api';
 import {debounce} from 'lodash';
 
-function App() {
+interface Quiz {
+    studentId: string
+}
+
+function App({studentId} : Quiz) {
     const [blanks, setBlanks] = useState<any[]>(['','','','','','']);
     
     const updateBlanks = () => {
         api.postAnswers({
-            studentId: 'abc',
+            studentId: studentId,
             answers: [...blanks]
         });       
     };
 
-    const delayedQuery = useCallback(debounce(updateBlanks, 250), [blanks]);
+    const delayedQuery = useCallback(debounce(updateBlanks, 200), [blanks]);
     
     function handleDrop(e: any) {
         setBlanks(_ => {
