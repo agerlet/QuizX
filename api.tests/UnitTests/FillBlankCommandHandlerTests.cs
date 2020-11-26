@@ -5,6 +5,7 @@ using api.Quiz;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace api.tests.UnitTests
@@ -16,7 +17,7 @@ namespace api.tests.UnitTests
         {
             // Arrange
             var repository = new Repository();
-            var fillBlankCommandHandler = new FillBlankCommandHandler(repository);
+            var fillBlankCommandHandler = new FillBlankCommandHandler(repository, NullLogger<FillBlankCommandHandler>.Instance);
             var fillBlankCommand = new FillBlankCommand {StudentId = "abc", Answers = new[] {"a", "b", "c", "d", "e"}};
             
             // Act
@@ -30,7 +31,7 @@ namespace api.tests.UnitTests
         {
             // Arrange
             var repository = new Repository();
-            var fillBlankCommandHandler = new FillBlankCommandHandler(repository);
+            var fillBlankCommandHandler = new FillBlankCommandHandler(repository, NullLogger<FillBlankCommandHandler>.Instance);
             var fillBlankCommand = new FillBlankCommand {StudentId = "abc", Answers = new[] {"a", "b", "c", "d", "e"}};
             var fillBlankCommand2 = new FillBlankCommand {StudentId = "def", Answers = new[] {"a", "b", "c", "d", "e"}};
             
@@ -46,7 +47,7 @@ namespace api.tests.UnitTests
         {
             // Arrange
             var repository = new Repository();
-            var fillBlankCommandHandler = new FillBlankCommandHandler(repository);
+            var fillBlankCommandHandler = new FillBlankCommandHandler(repository, NullLogger<FillBlankCommandHandler>.Instance);
             var fillBlankCommand = new FillBlankCommand {StudentId = "abc", Answers = new[] {"a", "b", "c", "d", "e"}};
             var fillBlankCommand2 = new FillBlankCommand {StudentId = "abc", Answers = new[] {"e", "b", "c", "d", "a"}};
             
@@ -63,7 +64,7 @@ namespace api.tests.UnitTests
         {
             // Arrange
             var repository = new Repository();
-            var fillBlankCommandHandler = new FillBlankCommandHandler(repository);
+            var fillBlankCommandHandler = new FillBlankCommandHandler(repository, NullLogger<FillBlankCommandHandler>.Instance);
             var fillBlankCommand = new FillBlankCommand {StudentId = "abc"};
             
             // Act
