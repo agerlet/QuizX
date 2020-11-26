@@ -1,17 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import './App.css';
 //@ts-ignore
 import {DragDropContainer, DropTarget} from 'react-drag-drop-container';
+import api from './api';
+import {debounce} from 'lodash';
 
 function App() {
     const [blanks, setBlanks] = useState<any[]>(['','','','','','']);
+    
+    const updateBlanks = () => {
+        api.postAnswers({
+            studentId: 'abc',
+            answers: [...blanks]
+        });       
+    };
 
+    const delayedQuery = useCallback(debounce(updateBlanks, 250), [blanks]);
+    
     function handleDrop(e: any) {
         setBlanks(_ => {
             _[e.dropData.id] = e.dragData.label;
-            return [..._];
+            return [...blanks];
         });
     }
+    
+    useEffect(() => {
+        delayedQuery();
+        
+        return delayedQuery.cancel;
+    }, [blanks, delayedQuery]);
 
     return (
         <div className="quiz">
