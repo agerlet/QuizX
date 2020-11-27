@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ using api.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace api.Quiz
 {
@@ -42,7 +42,7 @@ namespace api.Quiz
         
         public Task<IActionResult> Handle(FillBlankCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Received FillBlankCommand ({JsonConvert.SerializeObject(command)})");
+            _logger.LogInformation($"Received FillBlankCommand ({JsonSerializer.Serialize(command)})");
             if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult) new BadRequestObjectResult(command));
             
             var model = command.ToFillBlankModel();
