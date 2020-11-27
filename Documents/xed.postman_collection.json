@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "b582e90f-d319-4960-a759-f8d305751657",
+		"name": "xed",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "postAnswer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"studentId\": \"abc\",\n    \"answers\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/quiz/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"quiz",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Answers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/quiz/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"quiz",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
