@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using api.Models;
 
-namespace api
+namespace api.Repositories
 {
     public class Repository
     {

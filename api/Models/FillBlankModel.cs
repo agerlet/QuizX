@@ -1,6 +1,6 @@
 using System;
 
-namespace api
+namespace api.Models
 {
     public class FillBlankModel
     {

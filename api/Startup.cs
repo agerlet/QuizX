@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using api.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,9 @@ namespace api
 {
     public class Startup
     {
+        private readonly string _allowDebugOrigins = "_allowDebugOrigins";
         private readonly string _allowOrigins = "_allowOrigins";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,15 +31,25 @@ namespace api
                 .AddMediatR(Assembly.GetExecutingAssembly())
                 .AddCors(options =>
                 {
+                    options.AddPolicy(_allowDebugOrigins, builder =>
+                    {
+                        builder
+                            .WithMethods("GET", "POST", "OPTIONS")
+                            .WithHeaders(HeaderNames.ContentType)
+                            .SetIsOriginAllowed(origin =>
+                                origin.Equals("http://localhost:3000", StringComparison.CurrentCultureIgnoreCase)
+                                || origin.Equals("http://localhost:4000", StringComparison.CurrentCultureIgnoreCase)
+                            );
+                    });
                     options.AddPolicy(_allowOrigins, builder =>
                     {
                         builder
                             .WithMethods("GET", "POST", "OPTIONS")
-                            .WithHeaders(HeaderNames.ContentType, "user-id")
+                            .WithHeaders(HeaderNames.ContentType)
                             .SetIsOriginAllowed(origin =>
-                                origin.Equals("http://localhost:3000", StringComparison.CurrentCultureIgnoreCase)
-                                || origin.Equals("http://localhost:4000", StringComparison.CurrentCultureIgnoreCase)
-                                );
+                                origin.StartsWith("http://d1otfccrymcsh4.cloudfront.net/", StringComparison.CurrentCultureIgnoreCase)
+                                || origin.StartsWith("http://d2psja0tci4i1u.cloudfront.net/", StringComparison.CurrentCultureIgnoreCase)
+                            );
                     });
                 })
                 .AddControllers();
@@ -49,7 +62,11 @@ namespace api
             {
                 app
                     .UseDeveloperExceptionPage()
-                    .UseCors(_allowOrigins);
+                    .UseCors(_allowDebugOrigins);
+            }
+            else
+            {
+                app.UseCors(_allowOrigins);
             }
 
             app.UseHttpsRedirection();

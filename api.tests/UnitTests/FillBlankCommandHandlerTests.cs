@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.Quiz;
+using api.Repositories;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Microsoft.AspNetCore.Mvc;
