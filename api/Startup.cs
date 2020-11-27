@@ -47,8 +47,8 @@ namespace api
                             .WithMethods("GET", "POST", "OPTIONS")
                             .WithHeaders(HeaderNames.ContentType)
                             .SetIsOriginAllowed(origin =>
-                                origin.StartsWith("http://d1otfccrymcsh4.cloudfront.net/", StringComparison.CurrentCultureIgnoreCase)
-                                || origin.StartsWith("http://d2psja0tci4i1u.cloudfront.net/", StringComparison.CurrentCultureIgnoreCase)
+                                origin.Equals("http://d1otfccrymcsh4.cloudfront.net", StringComparison.CurrentCultureIgnoreCase)
+                                || origin.Equals("http://d2psja0tci4i1u.cloudfront.net", StringComparison.CurrentCultureIgnoreCase)
                             );
                     });
                 })
