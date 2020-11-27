@@ -48,7 +48,7 @@ namespace api
                             .WithHeaders(HeaderNames.ContentType)
                             .SetIsOriginAllowed(origin =>
                                 origin.Equals("http://d1otfccrymcsh4.cloudfront.net", StringComparison.CurrentCultureIgnoreCase)
-                                || origin.Equals("http://d2psja0tci4i1u.cloudfront.net", StringComparison.CurrentCultureIgnoreCase)
+                                || origin.Equals("http://xed-student.s3-website-ap-southeast-2.amazonaws.com", StringComparison.CurrentCultureIgnoreCase)
                             );
                     });
                 })
