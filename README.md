@@ -38,8 +38,19 @@ The service is a dotnet core 3.1 WebAPI running in the background to collect dat
     
 #### Run
     
-    ## At the root of this repository, run the following command
+    # At the root of this repository, run the following command
     $ dotnet run --project ./api/api.csproj
+    
+#### Build docker container
+
+    # At the root of this repository, run the following command
+    # [tag] should be replaced by the actual tag name e.g. 0.03
+    # Go to Docker Hub to find out the latest tag
+    $ docker build -t agerlet/xed-api:[tag]
+    
+    # login to docker hub
+    $ docker login 
+    $ docker push agerlet/xed-api:[tag]
 
 ### The student portal
 
@@ -62,7 +73,7 @@ The student portal is a react project to present the quiz to the students and re
     
 #### Run
     
-    ## At the student of this repository, run the following command
+    # At the student of this repository, run the following command
     $ yarn start
 
 ### The teacher portal
