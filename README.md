@@ -46,7 +46,7 @@ The service is a dotnet core 3.1 WebAPI running in the background to collect dat
     # At the root of this repository, run the following command
     # [tag] should be replaced by the actual tag name e.g. 0.03
     # Go to Docker Hub to find out the latest tag
-    $ docker build -t agerlet/xed-api:[tag]
+    $ docker build -t agerlet/xed-api:[tag] .
     
     # login to docker hub
     $ docker login 
