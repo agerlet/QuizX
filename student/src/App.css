@@ -1,6 +1,6 @@
 .quiz {
     font-size: 2rem;
-    line-height: 3rem;
+    line-height: 2rem;
     text-align: center;
 }
 
@@ -12,8 +12,7 @@
     display: inline-block;
     margin-left: 1rem;
     border: 1px solid dimgrey;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding: 0 1rem 0.7rem 1rem;
 }
 
 .quiz .body {
@@ -31,4 +30,19 @@
     line-height: 3rem;
     height: 3rem;
     text-align: center;
+}
+
+.quiz .chinese {
+    display: inline-block;
+}
+
+.quiz .pinyin {
+    font-size: 0.9rem;
+    display: block;
+    line-height: 1rem;
+    margin-top: 0.7rem;
+}
+
+.quiz p {
+    margin: 0.5rem auto;
 }

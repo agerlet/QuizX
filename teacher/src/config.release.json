@@ -1,4 +1,4 @@
 {
   "serviceBaseUrl": "http://xed-service.xiaomingfeng.com/api/quiz",
-  "studentPortalUrl": "http://d2psja0tci4i1u.cloudfront.net/quiz"
+  "studentPortalUrl": "http://xed-student.s3-website-ap-southeast-2.amazonaws.com/quiz"
 }

@@ -23,16 +23,20 @@
   background-color: peachpuff;
 }
 
-.App .chinese-name,
+.App .chinese-name {
+  width: 13%;
+}
 .App .english-name {
-  width: 15%
+  width: 8%
 }
 .App .url {
-  width: 25%;
+  width: auto;
+  white-space: nowrap;
 }
 .App .results {
   width: auto;
+  white-space: nowrap;
 }
-.App .Elaspe {
+.App .Elapse {
   width: 15%;
 }

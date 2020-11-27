@@ -46,7 +46,10 @@ function App({studentId} : Quiz) {
                     onDrop={handleDrop}
                 >
                     <li className="item">
-                        凉凉
+                        <span className="chinese">
+                            <span className="pinyin">liáng liáng</span>
+                            凉凉
+                        </span>
                     </li>
                 </DragDropContainer>
                 <DragDropContainer
@@ -55,7 +58,10 @@ function App({studentId} : Quiz) {
                     onDrop={handleDrop}
                 >
                     <li className="item">
-                        雪花
+                        <span className="chinese">
+                            <span className="pinyin">xuě huā</span>
+                            雪花
+                        </span>
                     </li>
                 </DragDropContainer>
                 <DragDropContainer
@@ -64,7 +70,10 @@ function App({studentId} : Quiz) {
                     onDrop={handleDrop}
                 >
                     <li className="item">
-                        尝一尝
+                        <span className="chinese">
+                            <span className="pinyin">cháng yī cháng</span>
+                            尝一尝
+                        </span>
                     </li>
                 </DragDropContainer>
                 <DragDropContainer
@@ -73,7 +82,10 @@ function App({studentId} : Quiz) {
                     onDrop={handleDrop}
                 >
                     <li className="item">
-                        变成
+                        <span className="chinese">
+                            <span className="pinyin">biàn chéng</span>
+                            变成
+                        </span>
                     </li>
                 </DragDropContainer>
                 <DragDropContainer
@@ -82,7 +94,10 @@ function App({studentId} : Quiz) {
                     onDrop={handleDrop}
                 >
                     <li className="item">
-                        甜
+                        <span className="chinese">
+                            <span className="pinyin">tián</span>
+                            甜
+                        </span>
                     </li>
                 </DragDropContainer>
             </ul>
@@ -91,10 +106,24 @@ function App({studentId} : Quiz) {
                 data-testid={"body"}
             >
                 <p>
-                    亮亮：冬冬快看！下雪了！
+                    <span className="chinese">
+                        <span className="pinyin">liàng liàng</span>
+                        亮亮：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">dōng dōng kuài kàn</span>
+                        冬冬快看！
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; xià &nbsp; xuě &nbsp; le</span>
+                        下雪了！
+                    </span>
                 </p>
                 <p>
-                    冬冬：
+                    <span className="chinese">
+                        <span className="pinyin">dōng dōng</span>
+                        冬冬：
+                    </span> 
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 0}}
@@ -103,10 +132,24 @@ function App({studentId} : Quiz) {
                             {blanks[0]}
                         </span>
                     </DropTarget>
-                    白白的，真好看！
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; bái &nbsp; bái &nbsp; de</span>
+                        白白的，
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">zhēn hǎo kàn</span>
+                        真好看！
+                    </span>
                 </p>
                 <p>
-                    亮亮：你知道雪是什么
+                    <span className="chinese">
+                        <span className="pinyin">liàng liàng</span>
+                        亮亮：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; nǐ &nbsp; &nbsp; zhī &nbsp; dào xuě &nbsp; shì shén me</span>
+                        你知道雪是什么
+                    </span>
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 1}}
@@ -115,13 +158,38 @@ function App({studentId} : Quiz) {
                             {blanks[1]}
                         </span>
                     </DropTarget>
-                    的吗？
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; de &nbsp; ma</span>
+                        的吗？
+                    </span>
                 </p>
                 <p>
-                    冬冬：是水，对吗？
+                    <span className="chinese">
+                        <span className="pinyin">dōng dōng</span>
+                        冬冬：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; shì shuǐ</span>
+                        是水，
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; duì &nbsp; ma</span>
+                        对吗？
+                    </span>
                 </p>
                 <p>
-                    亮亮：对！雪
+                    <span className="chinese">
+                        <span className="pinyin">liàng liàng</span>
+                        亮亮：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; duì</span>
+                        对！
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">xuě</span>
+                        雪
+                    </span>
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 2}}
@@ -129,10 +197,21 @@ function App({studentId} : Quiz) {
                         <span className="blank">
                             {blanks[2]}
                         </span>
-                    </DropTarget>吗？
+                    </DropTarget>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; ma</span>
+                        吗？
+                    </span>
                 </p>
                 <p>
-                    冬冬：我们
+                    <span className="chinese">
+                        <span className="pinyin">dōng dōng</span>
+                        冬冬：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; wǒ men</span>
+                        我们
+                    </span>
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 3}}
@@ -140,10 +219,21 @@ function App({studentId} : Quiz) {
                         <span className="blank">
                             {blanks[3]}
                         </span>
-                    </DropTarget>就知道了。
+                    </DropTarget>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; jiù &nbsp; zhī &nbsp;&nbsp; dào &nbsp; le</span>
+                        就知道了。
+                    </span>
                 </p>
                 <p>
-                    亮亮：雪不
+                    <span className="chinese">
+                        <span className="pinyin">liàng liàng</span>
+                        亮亮：
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">xuě &nbsp; bù</span>
+                        雪不
+                    </span>
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 4}}
@@ -151,7 +241,15 @@ function App({studentId} : Quiz) {
                         <span className="blank">
                             {blanks[4]}
                         </span>
-                    </DropTarget>也不咸，吃在嘴里
+                    </DropTarget>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; yě &nbsp; bù &nbsp; xuán</span>
+                        也不咸，
+                    </span>
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; chī &nbsp; cài &nbsp; zuǐ &nbsp; &nbsp; lǐ</span>
+                        吃在嘴里
+                    </span>
                     <DropTarget
                         targetKey="blank"
                         dropData={{id: 5}}
@@ -160,7 +258,10 @@ function App({studentId} : Quiz) {
                             {blanks[5]}
                         </span>
                     </DropTarget>
-                    的。
+                    <span className="chinese">
+                        <span className="pinyin">&nbsp; de</span>
+                        的。
+                    </span>
                 </p>
             </div>
         </div>
