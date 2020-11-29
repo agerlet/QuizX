@@ -47,8 +47,8 @@ namespace api
                             .WithMethods("GET", "POST", "OPTIONS")
                             .WithHeaders(HeaderNames.ContentType)
                             .SetIsOriginAllowed(origin =>
-                                origin.Equals("http://d1otfccrymcsh4.cloudfront.net", StringComparison.CurrentCultureIgnoreCase)
-                                || origin.Equals("http://xed-student.s3-website-ap-southeast-2.amazonaws.com", StringComparison.CurrentCultureIgnoreCase)
+                                origin.Equals("https://teacher.quizx.cc", StringComparison.CurrentCultureIgnoreCase)
+                                || origin.Equals("https://student.quizx.cc", StringComparison.CurrentCultureIgnoreCase)
                             );
                     });
                 })
