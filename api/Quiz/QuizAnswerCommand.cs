@@ -17,40 +17,20 @@ namespace api.Quiz
         public string StudentId { get; set; }
         public string QuizId { get; set; }
         public string[] Answers { get; set; }
-
-        public QuizAnswerModel ToFillBlankModel()
-        {
-            var quizAnswerModel = new QuizAnswerModel
-            {
-                StudentId = StudentId,
-                QuizId = QuizId,
-                Answers = Answers
-            };
-            return quizAnswerModel;
-        }
     }
 
     public class QuizAnswerCommandHandler : IRequestHandler<QuizAnswerCommand, IActionResult>
     {
-        private readonly Repository _repository;
-        private readonly ILogger<QuizAnswerCommandHandler> _logger;
-        private static string[] _answers = new[] { "雪花","变成","甜","尝一尝","甜","凉凉" };
+        private readonly IMediator _mediator;
 
-        public QuizAnswerCommandHandler(Repository repository, ILogger<QuizAnswerCommandHandler> logger)
+        public QuizAnswerCommandHandler(IMediator mediator)
         {
-            _repository = repository;
-            _logger = logger;
+            _mediator = mediator;
         }
         
         public Task<IActionResult> Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
-            if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult) new BadRequestObjectResult(command));
-            
-            var model = command.ToFillBlankModel();
-            model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
-            _repository.Save(model);
-            return Task.FromResult((IActionResult)new OkObjectResult(command));
+            return _mediator.Send(BabyWhiteCloudCommand.FromQuizAnswerCommand(command));
         }
     }
 }
