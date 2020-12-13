@@ -7,7 +7,7 @@ it('should fire an api call', async () => {
         Promise.resolve({data: {}}));
     
     // Act
-    await api.getAnswers();
+    await api.getAnswers("BabyWhiteCloud");
     
     // Assert
     expect(apiRequest).toHaveBeenCalledTimes(1);
@@ -21,7 +21,7 @@ it('should call api with GET', async () => {
         Promise.resolve({data: {}}));
     
     // Act
-    await api.getAnswers();
+    await api.getAnswers("BabyWhiteCloud");
     
     // Assert
     expect(apiRequest).toHaveBeenCalledWith(expect.objectContaining({'method': 'GET'}));
@@ -35,10 +35,14 @@ it('should call api with correct url', async () => {
         Promise.resolve({data: {}}));
     
     // Act
-    await api.getAnswers();
+    await api.getAnswers(`BabyWhiteCloud`);
     
     // Assert
-    expect(apiRequest).toHaveBeenCalledWith(expect.objectContaining({'url': 'https://localhost:5001/api/quiz'}));
+    expect(apiRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `https://localhost:5001/api/quiz/BabyWhiteCloud`,
+      })
+    );
 
     apiRequest.mockClear();
 });
@@ -49,7 +53,7 @@ it('should call api with application/json header', async () => {
         Promise.resolve({data: {}}));
     
     // Act
-    await api.getAnswers();
+    await api.getAnswers("BabyWhiteCloud");
     
     // Assert
     expect(apiRequest).toHaveBeenCalledWith(expect.objectContaining({'headers': { 'Content-Type': "application/json"}}));

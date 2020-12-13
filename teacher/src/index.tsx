@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import BabyWhiteCloud from "./BabyWhiteCloud";
 import reportWebVitals from './reportWebVitals';
 import students from './students.json';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App students={students} />
+    <BabyWhiteCloud students={students} />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
