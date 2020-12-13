@@ -20,7 +20,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Switch>
-                <Route path="/quiz/:studentId">
+                <Route path="/quiz/BabyWhiteCloud/:studentId">
                     {renderApp}
                 </Route>
             </Switch>
