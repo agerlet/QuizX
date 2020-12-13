@@ -20,6 +20,7 @@ namespace api.tests.ComponentTests
             var query = new
             {
                 StudentId = "abc",
+                QuizId = "quiz",
                 Answers = new[] {"a", "b", "c", "d", "e"}
             };
             var request = GetRequest(query);
@@ -35,18 +36,20 @@ namespace api.tests.ComponentTests
         public async Task Should_response_with_200_for_Query()
         {
             // Arrange
+            var quizId = "quizId";
             var inMemoryWebServer = await InMemoryWebServer.CreateServerAsync();
             var client = inMemoryWebServer.CreateClient();
             var query = new
             {
                 StudentId = "abc",
+                QuizId = quizId,
                 Answers = new[] {"a", "b", "c", "d", "e"}
             };
             var request = GetRequest(query);
 
             // Act
             await client.PostAsync("/api/quiz", request.Content);
-            var response = await client.GetAsync("/api/quiz");
+            var response = await client.GetAsync($"/api/quiz/{quizId}");
             
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -54,6 +57,52 @@ namespace api.tests.ComponentTests
             var array = JsonConvert.DeserializeObject<FillBlankCommand[]>(responseContent);
             array.Should().NotBeNullOrEmpty();
             array.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task Should_response_with_405_for_Query_without_quizId()
+        {
+            // Arrange
+            var quizId = "quizId";
+            var inMemoryWebServer = await InMemoryWebServer.CreateServerAsync();
+            var client = inMemoryWebServer.CreateClient();
+            var query = new
+            {
+                StudentId = "abc",
+                QuizId = quizId,
+                Answers = new[] { "a", "b", "c", "d", "e" }
+            };
+            var request = GetRequest(query);
+
+            // Act
+            await client.PostAsync("/api/quiz", request.Content);
+            var response = await client.GetAsync($"/api/quiz");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.MethodNotAllowed);
+        }
+
+        [Fact]
+        public async Task Should_response_with_405_for_Query_with_non_exists_quizId()
+        {
+            // Arrange
+            var quizId = "quizId";
+            var inMemoryWebServer = await InMemoryWebServer.CreateServerAsync();
+            var client = inMemoryWebServer.CreateClient();
+            var query = new
+            {
+                StudentId = "abc",
+                QuizId = quizId,
+                Answers = new[] { "a", "b", "c", "d", "e" }
+            };
+            var request = GetRequest(query);
+
+            // Act
+            await client.PostAsync("/api/quiz", request.Content);
+            var response = await client.GetAsync($"/api/quiz/unknown");
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         private static HttpRequestMessage GetRequest<T>(T query)

@@ -7,25 +7,33 @@ namespace api.Repositories
 {
     public class Repository
     {
-        private readonly Dictionary<string, FillBlankModel> _inMemoryDb = new Dictionary<string, FillBlankModel>();
+        private readonly Dictionary<string, Dictionary<string, FillBlankModel>> _inMemoryDb = new Dictionary<string, Dictionary<string, FillBlankModel>>();
         
         public void Save(FillBlankModel model)
         {
-            if (_inMemoryDb.ContainsKey(model.StudentId))
+            if (!_inMemoryDb.ContainsKey(model.QuizId))
             {
-                _inMemoryDb[model.StudentId].Answers = model.Answers;
-                _inMemoryDb[model.StudentId].CompleteAt = model.CompleteAt;
+                _inMemoryDb.Add(model.QuizId, new Dictionary<string, FillBlankModel>());
+            }
+
+            var quiz = _inMemoryDb[model.QuizId];
+            if (quiz.ContainsKey(model.StudentId))
+            {
+                quiz[model.StudentId].Answers = model.Answers;
+                quiz[model.StudentId].CompleteAt = model.CompleteAt;
             }
             else
             {
                 model.ArriveAt = DateTime.UtcNow;
-                _inMemoryDb.Add(model.StudentId, model);
+                quiz.Add(model.StudentId, model);
             }
         }
 
-        public FillBlankModel[] Query()
+        public FillBlankModel[] Query(Func<KeyValuePair<string, Dictionary<string, FillBlankModel>>, bool> predicate)
         {
-            return _inMemoryDb.Select(_ => _.Value).ToArray();
+            var quiz = _inMemoryDb.SingleOrDefault(predicate);
+
+            return quiz.Value == null ? new FillBlankModel[0] : quiz.Value.Select(_ => _.Value).ToArray();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace api.Quiz
     public class FillBlankCommand : IRequest<IActionResult>
     {
         public string StudentId { get; set; }
+        public string QuizId { get; set; }
         public string[] Answers { get; set; }
 
         public FillBlankModel ToFillBlankModel()
@@ -22,6 +23,7 @@ namespace api.Quiz
             var fillBlankModel = new FillBlankModel
             {
                 StudentId = StudentId,
+                QuizId = QuizId,
                 Answers = Answers
             };
             return fillBlankModel;

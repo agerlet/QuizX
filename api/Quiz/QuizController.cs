@@ -22,10 +22,10 @@ namespace api.Quiz
         }
 
         [HttpGet]
-        [Route("api/quiz")]
-        public async Task<IActionResult> Get()
+        [Route("api/quiz/{quizId}")]
+        public async Task<IActionResult> Get(string quizId)
         {
-            var query = new QueryQuizResultQuery();
+            var query = new QueryQuizResultQuery(quizId);
             return await _mediator.Send(query);
         }
     }
