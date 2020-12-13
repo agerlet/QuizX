@@ -3,6 +3,7 @@ import config from './config.json';
 
 interface Answer {
     studentId: string,
+    quizId: string,
     answers: string[]
 }
 
