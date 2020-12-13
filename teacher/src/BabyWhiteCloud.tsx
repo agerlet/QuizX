@@ -59,7 +59,7 @@ function BabyWhiteCloud({ students }: Students) {
                 <td>{_.student.chineseName}</td>
                 <td>{_.student.englishName}</td>
                 <td>
-                  {config.studentPortalUrl}/{_.student.studentId}
+                  {config.studentPortalUrl}/BabyWhiteCloud/{_.student.studentId}
                 </td>
                 <td data-testid={_.student.studentId + "-answers"}>
                   {_.answer && _.answer.completeAt && (
