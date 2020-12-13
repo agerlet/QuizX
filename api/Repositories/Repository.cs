@@ -7,13 +7,13 @@ namespace api.Repositories
 {
     public class Repository
     {
-        private readonly Dictionary<string, Dictionary<string, FillBlankModel>> _inMemoryDb = new Dictionary<string, Dictionary<string, FillBlankModel>>();
+        private readonly Dictionary<string, Dictionary<string, QuizAnswerModel>> _inMemoryDb = new Dictionary<string, Dictionary<string, QuizAnswerModel>>();
         
-        public void Save(FillBlankModel model)
+        public void Save(QuizAnswerModel model)
         {
             if (!_inMemoryDb.ContainsKey(model.QuizId))
             {
-                _inMemoryDb.Add(model.QuizId, new Dictionary<string, FillBlankModel>());
+                _inMemoryDb.Add(model.QuizId, new Dictionary<string, QuizAnswerModel>());
             }
 
             var quiz = _inMemoryDb[model.QuizId];
@@ -29,11 +29,11 @@ namespace api.Repositories
             }
         }
 
-        public FillBlankModel[] Query(Func<KeyValuePair<string, Dictionary<string, FillBlankModel>>, bool> predicate)
+        public QuizAnswerModel[] Query(Func<KeyValuePair<string, Dictionary<string, QuizAnswerModel>>, bool> predicate)
         {
             var quiz = _inMemoryDb.SingleOrDefault(predicate);
 
-            return quiz.Value == null ? new FillBlankModel[0] : quiz.Value.Select(_ => _.Value).ToArray();
+            return quiz.Value == null ? new QuizAnswerModel[0] : quiz.Value.Select(_ => _.Value).ToArray();
         }
     }
 }

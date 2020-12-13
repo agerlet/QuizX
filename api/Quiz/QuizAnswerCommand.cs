@@ -18,15 +18,15 @@ namespace api.Quiz
         public string QuizId { get; set; }
         public string[] Answers { get; set; }
 
-        public FillBlankModel ToFillBlankModel()
+        public QuizAnswerModel ToFillBlankModel()
         {
-            var fillBlankModel = new FillBlankModel
+            var quizAnswerModel = new QuizAnswerModel
             {
                 StudentId = StudentId,
                 QuizId = QuizId,
                 Answers = Answers
             };
-            return fillBlankModel;
+            return quizAnswerModel;
         }
     }
 

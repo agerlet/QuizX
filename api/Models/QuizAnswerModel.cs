@@ -2,7 +2,7 @@ using System;
 
 namespace api.Models
 {
-    public class FillBlankModel
+    public class QuizAnswerModel
     {
         public string QuizId { get; set; }
         public string StudentId { get; set; }
