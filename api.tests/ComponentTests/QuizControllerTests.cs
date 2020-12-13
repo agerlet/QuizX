@@ -103,6 +103,9 @@ namespace api.tests.ComponentTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var array = JsonConvert.DeserializeObject<FillBlankCommand[]>(responseContent);
+            array.Should().BeNullOrEmpty();
         }
 
         private static HttpRequestMessage GetRequest<T>(T query)

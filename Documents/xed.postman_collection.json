@@ -1,18 +1,32 @@
 {
 	"info": {
-		"_postman_id": "b582e90f-d319-4960-a759-f8d305751657",
+		"_postman_id": "c002218d-0a24-4ffe-87bf-286f80e0bb06",
 		"name": "xed",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "postAnswer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13da8629-998d-460f-bed6-04773bfd7f7b",
+						"exec": [
+							"pm.test(\"should respond with 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"studentId\": \"abc\",\n    \"answers\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\"\n    ]\n}",
+					"raw": "{\n    \"studentId\": \"abc\",\n    \"quizid\": \"123\",\n    \"answers\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -34,6 +48,52 @@
 		},
 		{
 			"name": "Get Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8fd2f0d-ce64-4432-a85d-64077806c9ce",
+						"exec": [
+							"pm.test(\"should respond with 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/quiz/123",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"quiz",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "missing quizid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "df9cd545-c7f3-4ec5-bcde-aee98babe81c",
+						"exec": [
+							"pm.test(\"should respond with 405\", () => {",
+							"    pm.response.to.have.status(405);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
