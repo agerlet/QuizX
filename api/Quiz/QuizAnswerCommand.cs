@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace api.Quiz
 {
-    public class FillBlankCommand : IRequest<IActionResult>
+    public class QuizAnswerCommand : IRequest<IActionResult>
     {
         public string StudentId { get; set; }
         public string QuizId { get; set; }
@@ -30,21 +30,21 @@ namespace api.Quiz
         }
     }
 
-    public class FillBlankCommandHandler : IRequestHandler<FillBlankCommand, IActionResult>
+    public class QuizAnswerCommandHandler : IRequestHandler<QuizAnswerCommand, IActionResult>
     {
         private readonly Repository _repository;
-        private readonly ILogger<FillBlankCommandHandler> _logger;
+        private readonly ILogger<QuizAnswerCommandHandler> _logger;
         private static string[] _answers = new[] { "雪花","变成","甜","尝一尝","甜","凉凉" };
 
-        public FillBlankCommandHandler(Repository repository, ILogger<FillBlankCommandHandler> logger)
+        public QuizAnswerCommandHandler(Repository repository, ILogger<QuizAnswerCommandHandler> logger)
         {
             _repository = repository;
             _logger = logger;
         }
         
-        public Task<IActionResult> Handle(FillBlankCommand command, CancellationToken cancellationToken)
+        public Task<IActionResult> Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Received FillBlankCommand ({JsonSerializer.Serialize(command)})");
+            _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
             if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult) new BadRequestObjectResult(command));
             
             var model = command.ToFillBlankModel();

@@ -54,7 +54,7 @@ namespace api.tests.ComponentTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
-            var array = JsonConvert.DeserializeObject<FillBlankCommand[]>(responseContent);
+            var array = JsonConvert.DeserializeObject<QuizAnswerCommand[]>(responseContent);
             array.Should().NotBeNullOrEmpty();
             array.Should().HaveCount(1);
         }
@@ -104,7 +104,7 @@ namespace api.tests.ComponentTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsStringAsync();
-            var array = JsonConvert.DeserializeObject<FillBlankCommand[]>(responseContent);
+            var array = JsonConvert.DeserializeObject<QuizAnswerCommand[]>(responseContent);
             array.Should().BeNullOrEmpty();
         }
 

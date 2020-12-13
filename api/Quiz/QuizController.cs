@@ -16,7 +16,7 @@ namespace api.Quiz
 
         [HttpPost]
         [Route("api/quiz")]
-        public async Task<IActionResult> Post(FillBlankCommand command)
+        public async Task<IActionResult> Post(QuizAnswerCommand command)
         {
             return await _mediator.Send(command);
         }
@@ -25,7 +25,7 @@ namespace api.Quiz
         [Route("api/quiz/{quizId}")]
         public async Task<IActionResult> Get(string quizId)
         {
-            var query = new QueryQuizResultQuery(quizId);
+            var query = new QuizResultQuery(quizId);
             return await _mediator.Send(query);
         }
     }
