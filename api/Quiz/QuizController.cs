@@ -18,7 +18,8 @@ namespace api.Quiz
         [Route("api/quiz")]
         public async Task<IActionResult> Post(QuizAnswerCommand command)
         {
-            return await _mediator.Send(command);
+            await _mediator.Publish(command);
+            return await Task.FromResult(Ok());
         }
 
         [HttpGet]

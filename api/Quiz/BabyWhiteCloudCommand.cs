@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace api.Quiz
 {
-    public class BabyWhiteCloudCommand : IRequest<IActionResult>
+    public class BabyWhiteCloudCommand : INotification
     {
         public string StudentId { get; set; }
         public string QuizId { get; set; }
@@ -40,7 +40,7 @@ namespace api.Quiz
         }
     }
 
-    public class BabyWhiteCloudCommandHandler : IRequestHandler<BabyWhiteCloudCommand, IActionResult>
+    public class BabyWhiteCloudCommandHandler : INotificationHandler<QuizAnswerCommand>
     {
         private readonly Repository _repository;
         private readonly ILogger<BabyWhiteCloudCommandHandler> _logger;
@@ -51,16 +51,22 @@ namespace api.Quiz
             _repository = repository;
             _logger = logger;
         }
-        
-        public Task<IActionResult> Handle(BabyWhiteCloudCommand command, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation($"Received BabyWhiteCloudCommand ({JsonSerializer.Serialize(command)})");
-            if (!(command.Answers?.Any() ?? false)) return Task.FromResult((IActionResult)new BadRequestObjectResult(command));
 
-            var model = command.ToQuizAnswerModel();
+        public Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
+            if (!command.QuizId.Equals("BabyWhiteCloud", StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
+            if (!(command.Answers?.Any() ?? false)) 
+            {
+                _logger.LogInformation("Missing answers for BabyWhiteCloud command.");
+                return Task.CompletedTask;
+            }
+
+            var babyWhitecloudCommand = BabyWhiteCloudCommand.FromQuizAnswerCommand(command);
+            var model = babyWhitecloudCommand.ToQuizAnswerModel();
             model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
             _repository.Save(model);
-            return Task.FromResult((IActionResult)new OkObjectResult(command));
+            return Task.CompletedTask;
         }
     }
 }

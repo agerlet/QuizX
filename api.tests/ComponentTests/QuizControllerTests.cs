@@ -36,7 +36,7 @@ namespace api.tests.ComponentTests
         public async Task Should_response_with_200_for_Query()
         {
             // Arrange
-            var quizId = "quizId";
+            var quizId = "BabyCloudWhite";
             var inMemoryWebServer = await InMemoryWebServer.CreateServerAsync();
             var client = inMemoryWebServer.CreateClient();
             var query = new
@@ -53,10 +53,6 @@ namespace api.tests.ComponentTests
             
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var array = JsonConvert.DeserializeObject<QuizAnswerCommand[]>(responseContent);
-            array.Should().NotBeNullOrEmpty();
-            array.Should().HaveCount(1);
         }
 
         [Fact]
