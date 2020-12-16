@@ -12,6 +12,7 @@ interface Students {
 
 interface Answer {
     studentId: string,
+    quizId: string,
     answers: string[],
     arriveAt: Date,
     completeAt: Date | null

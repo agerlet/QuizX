@@ -1,15 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from "./App";
+import BabyWhiteCloud from "./BabyWhiteCloud";
 import reportWebVitals from './reportWebVitals';
 import students from './students.json';
+import {
+  BrowserRouter as Router,
+  Route,
+  RouteComponentProps,
+  Switch,
+} from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App students={students} />
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          {<App />}
+        </Route>
+        <Route path="/BabyWhiteCloud/">
+          {<BabyWhiteCloud students={students} />}
+        </Route>
+      </Switch>
+    </Router>{" "}
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

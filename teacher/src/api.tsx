@@ -9,10 +9,10 @@ const getHeaders = () => {
 };
 
 export default {
-    getAnswers() : Promise<AxiosResponse<Answer[]>> {
+    getAnswers(quizId : string) : Promise<AxiosResponse<Answer[]>> {
         return axios.request({
             method: 'GET',
-            url: `${config.serviceBaseUrl}`,
+            url: `${config.serviceBaseUrl}/${quizId}`,
             headers: getHeaders()
         });
     }

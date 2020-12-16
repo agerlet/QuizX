@@ -1,4 +1,4 @@
-.App {
+.BabyWhiteCloud {
   text-align: center;
   background-color: beige;
   min-height: 10rem;
@@ -6,37 +6,37 @@
   margin: 2rem;
 }
 
-.App table {
+.BabyWhiteCloud table {
   width: 100%;
 }
-.App thead {
+.BabyWhiteCloud thead {
   font-weight: bold;
 }
-.App td {
+.BabyWhiteCloud td {
   height: 2rem;
 }
-.App tbody tr:nth-child(odd){
+.BabyWhiteCloud tbody tr:nth-child(odd){
   background-color: floralwhite;
 }
 
-.App tbody tr:hover {
+.BabyWhiteCloud tbody tr:hover {
   background-color: peachpuff;
 }
 
-.App .chinese-name {
-  width: 13%;
+.BabyWhiteCloud .chinese-name {
+  width: 15%;
 }
-.App .english-name {
-  width: 8%
+.BabyWhiteCloud .english-name {
+  width: 9%
 }
-.App .url {
+.BabyWhiteCloud .url {
   width: auto;
   white-space: nowrap;
 }
-.App .results {
+.BabyWhiteCloud .results {
   width: auto;
   white-space: nowrap;
 }
-.App .Elapse {
+.BabyWhiteCloud .Elapse {
   width: 15%;
 }

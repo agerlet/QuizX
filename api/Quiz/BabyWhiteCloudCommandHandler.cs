@@ -1,0 +1,40 @@
+using System;
+using System.Linq;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using api.Repositories;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace api.Quiz
+{
+    public class BabyWhiteCloudCommandHandler : INotificationHandler<QuizAnswerCommand>
+    {
+        private readonly Repository _repository;
+        private readonly ILogger<BabyWhiteCloudCommandHandler> _logger;
+        private static string[] _answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" };
+
+        public BabyWhiteCloudCommandHandler(Repository repository, ILogger<BabyWhiteCloudCommandHandler> logger)
+        {
+            _repository = repository;
+            _logger = logger;
+        }
+
+        public Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
+            if (!command.QuizId.Equals("BabyWhiteCloud", StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
+            if (!(command.Answers?.Any() ?? false)) 
+            {
+                _logger.LogInformation("Missing answers for BabyWhiteCloud command.");
+                return Task.CompletedTask;
+            }
+
+            var model = command.ToQuizAnswerModel();
+            model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
+            _repository.Save(model);
+            return Task.CompletedTask;
+        }
+    }
+}

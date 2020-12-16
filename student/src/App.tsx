@@ -14,8 +14,9 @@ function App({studentId} : Quiz) {
     
     const updateBlanks = () => {
         api.postAnswers({
-            studentId: studentId,
-            answers: [...blanks]
+          studentId: studentId,
+          quizId: "BabyWhiteCloud",
+          answers: [...blanks],
         });       
     };
 
