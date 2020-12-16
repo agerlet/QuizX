@@ -7,7 +7,7 @@ namespace api.Repositories
 {
     public class Repository
     {
-        private readonly Dictionary<string, Dictionary<string, QuizAnswerModel>> _inMemoryDb = new Dictionary<string, Dictionary<string, QuizAnswerModel>>();
+        private readonly Dictionary<string, Dictionary<string, QuizAnswerModel>> _inMemoryDb = new();
         
         public void Save(QuizAnswerModel model)
         {
@@ -31,9 +31,9 @@ namespace api.Repositories
 
         public QuizAnswerModel[] Query(Func<KeyValuePair<string, Dictionary<string, QuizAnswerModel>>, bool> predicate)
         {
-            var quiz = _inMemoryDb.SingleOrDefault(predicate);
+            var (_, value) = _inMemoryDb.SingleOrDefault(predicate);
 
-            return quiz.Value == null ? new QuizAnswerModel[0] : quiz.Value.Select(_ => _.Value).ToArray();
+            return value == null ? Array.Empty<QuizAnswerModel>() : value.Select(_ => _.Value).ToArray();
         }
     }
 }
