@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using api.Quiz;
+using api.Quiz.CommandHandlers;
 using api.Repositories;
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -82,6 +83,31 @@ namespace api.tests.UnitTests
 
             // Assert
             exception.Should().BeNull();
+        }
+        
+        [Fact]
+        public async Task Should_complete_test_when_answers_are_correct()
+        {
+            // Arrange
+            var repository = new Repository();
+            var logger = NullLogger<BabyWhiteCloudCommandHandler>.Instance;
+            var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, logger);
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" } };
+
+            // Act
+            await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
+
+            // Assert
+            repository.Query(_ => _.Key == "BabyWhiteCloud").Single().CompleteAt.Should().NotBeNull();
+            
+            // Arrange
+            quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "" } };
+
+            // Act
+            await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
+
+            // Assert
+            repository.Query(_ => _.Key == "BabyWhiteCloud").Single().CompleteAt.Should().BeNull();
         }
     }
 }
