@@ -6,7 +6,6 @@ using api.Quiz;
 using api.Repositories;
 using FluentAssertions;
 using FluentAssertions.Common;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

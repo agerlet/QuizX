@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using api.Models;
 using api.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace api.Quiz
@@ -62,8 +61,8 @@ namespace api.Quiz
                 return Task.CompletedTask;
             }
 
-            var babyWhitecloudCommand = BabyWhiteCloudCommand.FromQuizAnswerCommand(command);
-            var model = babyWhitecloudCommand.ToQuizAnswerModel();
+            var babyWhiteCloudCommand = BabyWhiteCloudCommand.FromQuizAnswerCommand(command);
+            var model = babyWhiteCloudCommand.ToQuizAnswerModel();
             model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
             _repository.Save(model);
             return Task.CompletedTask;
