@@ -3,42 +3,12 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using api.Models;
 using api.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace api.Quiz
 {
-    public class BabyWhiteCloudCommand : INotification
-    {
-        public string StudentId { get; set; }
-        public string QuizId { get; set; }
-        public string[] Answers { get; set; }
-
-        private BabyWhiteCloudCommand() { }
-
-        public static BabyWhiteCloudCommand FromQuizAnswerCommand(QuizAnswerCommand quizAnswerCommand)
-        {
-            var command = new BabyWhiteCloudCommand();
-            command.StudentId = quizAnswerCommand.StudentId;
-            command.QuizId = quizAnswerCommand.QuizId;
-            command.Answers = quizAnswerCommand.Answers;
-            return command;
-        }
-
-        public QuizAnswerModel ToQuizAnswerModel()
-        {
-            var quizAnswerModel = new QuizAnswerModel
-            {
-                StudentId = StudentId,
-                QuizId = QuizId,
-                Answers = Answers
-            };
-            return quizAnswerModel;
-        }
-    }
-
     public class BabyWhiteCloudCommandHandler : INotificationHandler<QuizAnswerCommand>
     {
         private readonly Repository _repository;
@@ -61,8 +31,7 @@ namespace api.Quiz
                 return Task.CompletedTask;
             }
 
-            var babyWhiteCloudCommand = BabyWhiteCloudCommand.FromQuizAnswerCommand(command);
-            var model = babyWhiteCloudCommand.ToQuizAnswerModel();
+            var model = command.ToQuizAnswerModel();
             model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
             _repository.Save(model);
             return Task.CompletedTask;
