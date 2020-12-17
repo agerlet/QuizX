@@ -1,0 +1,57 @@
+{
+  "draggables": [
+    [
+      {
+        "pinyin": "shuì",
+        "chinese": "睡"
+      },
+      {
+        "pinyin": "gù",
+        "chinese": "故"
+      },
+      {
+        "pinyin": "wàng",
+        "chinese": "望"
+      },
+      {
+        "pinyin": "jǔ",
+        "chinese": "举"
+      },
+      {
+        "pinyin": "lóu",
+        "chinese": "楼"
+      },
+      {
+        "pinyin": "zì",
+        "chinese": "自"
+      }
+    ],
+    [
+      {
+        "pinyin": "yuè",
+        "chinese": "月"
+      },
+      {
+        "pinyin": "jiào",
+        "chinese": "觉"
+      },
+      {
+        "pinyin": "fáng",
+        "chinese": "房"
+      },
+      {
+        "pinyin": "xiāng",
+        "chinese": "乡"
+      },
+      {
+        "pinyin": "jǐ",
+        "chinese": "己"
+      },
+      {
+        "pinyin": "shǒu",
+        "chinese": "手"
+      }
+    ]
+  ],
+  "slots": 6
+}

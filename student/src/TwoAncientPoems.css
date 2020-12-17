@@ -1,0 +1,36 @@
+.two-ancient-poems-container {
+    font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
+    font-size: 2rem;
+    line-height: 2rem;
+    text-align: center;
+}
+
+.two-ancient-poems-container table {
+    margin: 2rem auto;
+}
+
+.two-ancient-poems-container table td {
+    height: 8rem;
+    width: 8rem;
+}
+
+.two-ancient-poems-container .pinyin {
+    font-size: 1rem;
+    display: block;
+}
+
+.two-ancient-poems-container .droptarget {
+    border: 1px dotted lightgrey;
+    display: inline-block;
+    width: 3.5rem;
+    height: 4rem;
+    line-height: 4rem;
+}
+
+.two-ancient-poems-container .droptarget.highlighted {
+    background-color: lightyellow;
+}
+
+.two-ancient-poems-container .droptarget .blank {
+    display: inline-block;
+}

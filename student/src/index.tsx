@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import BabyWhiteCloud from './BabyWhiteCloud';
+import TwoAncientPoems from './TwoAncientPoems';
 import reportWebVitals from './reportWebVitals';
 import {
     BrowserRouter as Router,
@@ -10,9 +11,15 @@ import {
     Switch
 } from 'react-router-dom';
 
-const renderApp=({match}:RouteComponentProps<any>) => {
+const renderBabyWhiteCloud=({match}:RouteComponentProps<any>) => {
     return (
-        <App studentId={match.params.studentId} />
+        <BabyWhiteCloud studentId={match.params.studentId} />
+    );
+}
+
+const renderTwoAncientPoems=({match}:RouteComponentProps<any>) => {
+    return (
+        <TwoAncientPoems studentId={match.params.studentId} />
     );
 }
 
@@ -21,7 +28,10 @@ ReactDOM.render(
         <Router>
             <Switch>
                 <Route path="/quiz/BabyWhiteCloud/:studentId">
-                    {renderApp}
+                    {renderBabyWhiteCloud}
+                </Route>
+                <Route path="/quiz/TwoAncientPoems/:studentId">
+                    {renderTwoAncientPoems}
                 </Route>
             </Switch>
         </Router>

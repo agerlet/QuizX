@@ -1,15 +1,11 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import './App.css';
+import './BabyWhiteCloud.css';
 //@ts-ignore
 import {DragDropContainer, DropTarget} from 'react-drag-drop-container';
 import api from './api';
 import {debounce} from 'lodash';
 
-interface Quiz {
-    studentId: string
-}
-
-function App({studentId} : Quiz) {
+function BabyWhiteCloud({studentId} : Quiz) {
     const [blanks, setBlanks] = useState<any[]>(['','','','','','']);
     
     const updateBlanks = () => {
@@ -269,4 +265,4 @@ function App({studentId} : Quiz) {
     );
 }
 
-export default App;
+export default BabyWhiteCloud;
