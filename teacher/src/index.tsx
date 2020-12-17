@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from "./App";
 import BabyWhiteCloud from "./BabyWhiteCloud";
+import TwoAncientPoems from "./TwoAncientPoems";
 import reportWebVitals from './reportWebVitals';
 import students from './students.json';
 import {
@@ -21,6 +22,9 @@ ReactDOM.render(
         </Route>
         <Route path="/BabyWhiteCloud/">
           {<BabyWhiteCloud students={students} />}
+        </Route>
+        <Route path="/TwoAncientPoems/">
+          {<TwoAncientPoems students={students} />}
         </Route>
       </Switch>
     </Router>{" "}

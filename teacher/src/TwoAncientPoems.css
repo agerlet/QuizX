@@ -1,0 +1,42 @@
+.two-ancient-poems {
+    text-align: center;
+    background-color: beige;
+    min-height: 10rem;
+    min-width: 20rem;
+    margin: 2rem;
+}
+
+.two-ancient-poems table {
+    width: 100%;
+}
+.two-ancient-poems thead {
+    font-weight: bold;
+}
+.two-ancient-poems td {
+    height: 2rem;
+}
+.two-ancient-poems tbody tr:nth-child(odd){
+    background-color: floralwhite;
+}
+
+.two-ancient-poems tbody tr:hover {
+    background-color: peachpuff;
+}
+
+.two-ancient-poems .chinese-name {
+    width: 15%;
+}
+.two-ancient-poems .english-name {
+    width: 9%
+}
+.two-ancient-poems .url {
+    width: auto;
+    white-space: nowrap;
+}
+.two-ancient-poems .results {
+    width: auto;
+    white-space: nowrap;
+}
+.two-ancient-poems .Elapse {
+    width: 15%;
+}

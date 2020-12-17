@@ -7,13 +7,15 @@ using api.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace api.Quiz
+namespace api.Quiz.CommandHandlers
 {
     public class BabyWhiteCloudCommandHandler : INotificationHandler<QuizAnswerCommand>
     {
+        private const string HandleQuizId = "BabyWhiteCloud";
+        private static readonly string[] Answers = { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" };
+        
         private readonly Repository _repository;
         private readonly ILogger<BabyWhiteCloudCommandHandler> _logger;
-        private static string[] _answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" };
 
         public BabyWhiteCloudCommandHandler(Repository repository, ILogger<BabyWhiteCloudCommandHandler> logger)
         {
@@ -23,8 +25,8 @@ namespace api.Quiz
 
         public Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
         {
+            if (!command.QuizId.Equals(HandleQuizId, StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
             _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
-            if (!command.QuizId.Equals("BabyWhiteCloud", StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
             if (!(command.Answers?.Any() ?? false)) 
             {
                 _logger.LogInformation("Missing answers for BabyWhiteCloud command.");
@@ -32,7 +34,7 @@ namespace api.Quiz
             }
 
             var model = command.ToQuizAnswerModel();
-            model.CompleteAt = model.Answers.SequenceEqual(_answers) ? DateTime.UtcNow : default(DateTime?);
+            model.CompleteAt = model.Answers.SequenceEqual(Answers) ? DateTime.UtcNow : default(DateTime?);
             _repository.Save(model);
             return Task.CompletedTask;
         }

@@ -1,4 +1,4 @@
 {
-  "serviceBaseUrl": "https://localhost:5001/api",
+  "serviceBaseUrl": "http://localhost:5000/api",
   "quiz": "quiz"
 }
