@@ -8,6 +8,7 @@ import 'moment-timezone';
 function TwoAncientPoems({ students }: Students) {
     const [answers_0, setAnswers_0] = useState<Answer[]>();
     const [answers_1, setAnswers_1] = useState<Answer[]>();
+    const [answers_2, setAnswers_2] = useState<Answer[]>();
 
     useEffect(() => {
         api
@@ -19,6 +20,12 @@ function TwoAncientPoems({ students }: Students) {
         api
             .getAnswers("TwoAncientPoems_7")
             .then((response) => setAnswers_1(response.data));
+    }, []);
+    
+    useEffect(() => {
+        api
+            .getAnswers("TwoAncientPoems_6")
+            .then((response) => setAnswers_2(response.data));
     }, []);
     
     const lookupAnswer = (answers : Answer[] | undefined, studentId : string) => {
@@ -76,25 +83,21 @@ function TwoAncientPoems({ students }: Students) {
     }
     
     function renderElaspe(answers: (Answer | null)[]) {
-        return (
-            <>
-                {answers.map((_, i) => 
-                    <>
-                        {_ && _.completeAt && <>
-                            {i > 0 && <br />}
-                            <Moment
-                                duration={_.arriveAt}
-                                date={_.completeAt}
-                            />
-                        </>}
-                        {_ && _.completeAt && <>
-                            {i > 0 && <br />}
-                            <div>-:-</div>
-                        </>}
-                    </>
-                )}
-            </>
-        );
+        return (<>
+            {answers.map((_, i) => <>
+                {_ && _.completeAt && 
+                <div key={i}>
+                    <Moment
+                        duration={_.arriveAt}
+                        date={_.completeAt}
+                    />
+                </div>}
+                {(!_ || !_.completeAt) && 
+                <div key={i}>
+                    -:-
+                </div>}
+            </>)}
+        </>);
     };
 
     return (
@@ -116,11 +119,13 @@ function TwoAncientPoems({ students }: Students) {
                             student: _,
                             answers: [
                                 joinAnswers_0(_.studentId),
-                                joinAnswers(answers_1, _.studentId)
+                                joinAnswers(answers_1, _.studentId),
+                                joinAnswers(answers_2, _.studentId)
                             ],
                             answer: [
                                 lookupAnswer(answers_0, _.studentId),
-                                lookupAnswer(answers_1, _.studentId)
+                                lookupAnswer(answers_1, _.studentId),
+                                lookupAnswer(answers_2, _.studentId)
                             ]
                         };
                     })

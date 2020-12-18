@@ -4,6 +4,7 @@ import './index.css';
 import BabyWhiteCloud from './BabyWhiteCloud';
 import TwoAncientPoems from './TwoAncientPoems';
 import TwoAncientPoems2 from './TwoAncientPoems2';
+import TwoAncientPoems3 from './TwoAncientPoems3';
 import reportWebVitals from './reportWebVitals';
 import {
     BrowserRouter as Router,
@@ -23,6 +24,7 @@ const renderTwoAncientPoems=({match}:RouteComponentProps<any>) => {
         <>
             {(match.params.pageId ?? "1") === "1" && <TwoAncientPoems studentId={match.params.studentId} />}
             {match.params.pageId === "2" && <TwoAncientPoems2 studentId={match.params.studentId} />}
+            {match.params.pageId === "3" && <TwoAncientPoems3 studentId={match.params.studentId} />}
         </>
     );
 };
