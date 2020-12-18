@@ -1,4 +1,4 @@
 {
-  "serviceBaseUrl": "http://xed-service.xiaomingfeng.com/api",
+  "serviceBaseUrl": "https://api.quizx.cc/api",
   "quiz": "quiz"
 }
