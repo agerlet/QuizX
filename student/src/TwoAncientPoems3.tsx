@@ -35,9 +35,9 @@ function TwoAncientPoems3({studentId} : Quiz) {
         >
             <h1>
                 <span className={"pinyin"}>
-                    xuǎn chū xià liè jù zi zhõng jiā diǎn zì de zhèng què jiě shì
+                    pàn duàn jù zi, duì de xuǎn "✔", cuò de xuǎn "✘"
                 </span>
-                选出下列句子中加点字的正确解释
+                判断句子，对的选"✔"，错的选"✘"
             </h1>
             <table className={"topics"}>
                 <tbody>
