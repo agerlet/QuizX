@@ -108,6 +108,9 @@
     line-height: 4rem;
 }
 
+.two-ancient-poems-container .not-belong .droptarget {
+    width: 7rem;
+}
 .two-ancient-poems-container .droptarget.highlighted {
     background-color: lightyellow;
 }

@@ -60,7 +60,7 @@ function TwoAncientPoems2({studentId} : Quiz) {
                         colSpan={3}
                         style={{textAlign: "right"}}
                     >
-                        <a href={`./${studentId}/3`}>Next</a>
+                        <a href={`/quiz/TwoAncientPoems/${studentId}/3`}>Next</a>
                     </td>
                 </tr>
                 </tfoot>

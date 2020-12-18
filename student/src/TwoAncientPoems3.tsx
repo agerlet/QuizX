@@ -6,6 +6,7 @@ import {debounce} from 'lodash';
 
 function TwoAncientPoems3({studentId} : Quiz) {
     const [options, setOptions] = useState<string[]>(['', '', '', '']);
+    const [showNext, setShowNext] = useState<boolean>(false);
 
     const updateBlanks = () => {
         api.postAnswers({
@@ -20,6 +21,9 @@ function TwoAncientPoems3({studentId} : Quiz) {
             _[i] = tick;
             return [...options];
         });
+        if (options.every(_ => _.trim().length > 0)) {
+            setShowNext(true);
+        }
     }
     
     const delayedQuery = useCallback(debounce(updateBlanks, 200), [options]);
@@ -29,6 +33,24 @@ function TwoAncientPoems3({studentId} : Quiz) {
         return delayedQuery.cancel;
     }, [options, delayedQuery]);
     
+    function renderNextQuestion() {
+        return (
+            <>
+                {showNext &&
+                <tfoot>
+                <tr>
+                    <td
+                        colSpan={3}
+                        style={{textAlign: "right"}}
+                    >
+                        <a href={`/quiz/TwoAncientPoems/${studentId}/4`}>Next</a>
+                    </td>
+                </tr>
+                </tfoot>
+                }
+            </>
+        );
+    }
     return (
         <div
             className={"two-ancient-poems-container"}
@@ -71,6 +93,7 @@ function TwoAncientPoems3({studentId} : Quiz) {
                     </tr>    
                 )}
                 </tbody>
+                {renderNextQuestion()}
             </table>
         </div>
     );

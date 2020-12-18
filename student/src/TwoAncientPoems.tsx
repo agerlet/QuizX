@@ -106,7 +106,7 @@ function TwoAncientPoems({studentId}: Quiz) {
                             colSpan={draggables.slots}
                             style={{textAlign: "right"}}
                         >
-                            <a href={`./${studentId}/2`}>Next</a>
+                            <a href={`/quiz/TwoAncientPoems/${studentId}/2`}>Next</a>
                         </td>
                     </tr>
                 </tfoot>
