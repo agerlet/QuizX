@@ -41,6 +41,24 @@
     width: 5%;
 }
 
+.two-ancient-poems-container table .sentences {
+    width: 75%;
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.two-ancient-poems-container .tick-or-cross a {
+    text-decoration: none;
+    color: lightgrey;
+    font-size: 3rem;
+    margin: auto 1rem;
+}
+
+.two-ancient-poems-container .tick-or-cross a:hover,
+.two-ancient-poems-container .tick-or-cross a.selected {
+    color: black;
+}
+
 .two-ancient-poems-container table .options {
     width: 60%;
 }
