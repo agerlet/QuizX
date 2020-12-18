@@ -62,13 +62,13 @@ function TwoAncientPoems({ students }: Students) {
             <>
                 {collection.map((_, i) => {
                     return (
-                        <>
+                        <span key={i}>
                             {i > 0 && <br />}
                             {_.answer && _.answer.completeAt && (
                                 <span style={{ color: "green" }}>{_.answers}</span>
                             )}
                             {(!_.answer || !_.answer.completeAt) && _.answers}
-                        </>
+                        </span>
                     )
                 })}
             </>
@@ -78,15 +78,24 @@ function TwoAncientPoems({ students }: Students) {
     function renderElaspe(answers: (Answer | null)[]) {
         return (
             <>
-                {answers.map(_ => _ && _.completeAt && (
-                    <Moment
-                        duration={_.arriveAt}
-                        date={_.completeAt}
-                    />)
+                {answers.map((_, i) => 
+                    <>
+                        {_ && _.completeAt && <>
+                            {i > 0 && <br />}
+                            <Moment
+                                duration={_.arriveAt}
+                                date={_.completeAt}
+                            />
+                        </>}
+                        {_ && _.completeAt && <>
+                            {i > 0 && <br />}
+                            <div>-:-</div>
+                        </>}
+                    </>
                 )}
             </>
         );
-    }
+    };
 
     return (
         <div className={"two-ancient-poems"} data-testid={"two-ancient-poems-container"}>

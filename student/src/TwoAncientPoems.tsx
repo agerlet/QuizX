@@ -7,7 +7,8 @@ import api from './api';
 import {debounce} from 'lodash';
 
 function TwoAncientPoems({studentId}: Quiz) {
-    const [blanks, setBlanks] = useState<any[]>([' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
+    const [blanks, setBlanks] = useState<string[]>(['', '', '', '', '', '', '', '', '', '', '', '']);
+    const [showNext, setShowNext] = useState<boolean>(false);
 
     const updateBlanks = () => {
         api.postAnswers({
@@ -21,27 +22,22 @@ function TwoAncientPoems({studentId}: Quiz) {
 
     function handleDrop(e: any) {
         setBlanks(_ => {
-            console.log(e);
             _[e.dropData.id] = e.dragData.label;
             return [...blanks];
         });
+        if (blanks.every(_ => _.trim().length > 0)) {
+            setShowNext(true);
+        }
     }
 
     useEffect(() => {
         delayedQuery();
-
         return delayedQuery.cancel;
     }, [blanks, delayedQuery]);
 
-    return (
-        <div
-            className={"two-ancient-poems-container"}
-            data-testid={"app"}
-        >
-            <table 
-                data-testid={"host-table"}
-            >
-                <tbody>
+    function renderDraggables() {
+        return (
+            <>
                 {draggables.draggables.map((_, i) =>
                     <tr
                         key={i}
@@ -64,34 +60,75 @@ function TwoAncientPoems({studentId}: Quiz) {
                         )}
                     </tr>
                 )}
-                <tr>
-                    {[...Array(draggables.slots)].map((_, i) => 
-                        <td 
-                            key={i}
-                            data-testid={i * 2}
+            </>
+        );
+    }
+
+    function renderDropTarget() {
+        return (
+            <tr>
+            {[...Array(draggables.slots)].map((_, i) =>
+                <td
+                    key={i}
+                    data-testid={i * 2}
+                >
+                    <DropTarget
+                        key={i * 2}
+                        targetKey="blank"
+                        dropData={{id: i * 2}}
+                    >
+                        <span className="blank">
+                            {blanks[i * 2]}
+                        </span>
+                    </DropTarget>
+                    <DropTarget
+                        key={i * 2 + 1}
+                        targetKey="blank"
+                        dropData={{id: i * 2 + 1}}
+                    >
+                        <span className="blank">
+                            {blanks[i * 2 + 1]}
+                        </span>
+                    </DropTarget>
+                </td>
+            )}
+            </tr>
+        );
+    }
+
+    function renderNextQuestion() {
+        return (
+            <>
+                {showNext &&
+                <tfoot>
+                    <tr>
+                        <td
+                            colSpan={draggables.slots}
+                            style={{textAlign: "right"}}
                         >
-                            <DropTarget
-                                key={i * 2}
-                                targetKey="blank"
-                                dropData={{id: i * 2}}
-                            >
-                                <span className="blank">
-                                    {blanks[i * 2]}
-                                </span>
-                            </DropTarget>
-                            <DropTarget
-                                key={i * 2 + 1}
-                                targetKey="blank"
-                                dropData={{id: i * 2 + 1}}
-                            >
-                                <span className="blank">
-                                    {blanks[i * 2 + 1]}
-                                </span>
-                            </DropTarget>
+                            <a href={`./${studentId}/2`}>Next</a>
                         </td>
-                    )}
-                </tr>
+                    </tr>
+                </tfoot>
+                }
+            </>
+        );
+    }
+    
+    return (
+        <div
+            className={"two-ancient-poems-container"}
+            data-testid={"app"}
+        >
+            <h1>连一连，组词语</h1>
+            <table
+                data-testid={"host-table"}
+            >
+                <tbody>
+                {renderDraggables()}
+                {renderDropTarget()}
                 </tbody>
+                {renderNextQuestion()}
             </table>
         </div>
     );

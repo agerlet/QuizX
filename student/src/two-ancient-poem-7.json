@@ -1,0 +1,112 @@
+[
+  {
+    "topic": "疑是地上霜",
+    "highlight": "疑",
+    "pinyin": "yí shì dì shàng shuāng",
+    "options": [
+      {
+        "id": "A",
+        "option": "不觉得",
+        "pinyin": "bù jué de"
+      },
+      {
+        "id": "B",
+        "option": "以为",
+        "pinyin": "yǐ wéi"
+      },
+      {
+        "id": "C",
+        "option": "不知道",
+        "pinyin": "bù zhī dào"
+      }
+    ]
+  },
+  {
+    "topic": "举头望明月",
+    "highlight": "望",
+    "pinyin": "jǔ tóu wàng míng yuè",
+    "options": [
+      {
+        "id": "A",
+        "option": "看",
+        "pinyin": "kàn"
+      },
+      {
+        "id": "B",
+        "option": "月亮",
+        "pinyin": "yuè liàng"
+      },
+      {
+        "id": "C",
+        "option": "问",
+        "pinyin": "wèn"
+      }
+    ]
+  },
+  {
+    "topic": "低头思故乡",
+    "highlight": "思",
+    "pinyin": "dì tóu sī gù xiāng",
+    "options": [
+      {
+        "id": "A",
+        "option": "思考",
+        "pinyin": "sī kǎo"
+      },
+      {
+        "id": "B",
+        "option": "思念",
+        "pinyin": "sī niàn"
+      },
+      {
+        "id": "C",
+        "option": "想法",
+        "pinyin": "xiǎng fǎ"
+      }
+    ]
+  },
+  {
+    "topic": "白日依山尽",
+    "highlight": "日",
+    "pinyin": "bái rì yī shān jìn",
+    "options": [
+      {
+        "id": "A",
+        "option": "白天",
+        "pinyin": "bái tiān"
+      },
+      {
+        "id": "B",
+        "option": "一天",
+        "pinyin": "yī tiān"
+      },
+      {
+        "id": "C",
+        "option": "太阳",
+        "pinyin": "tài yáng"
+      }
+    ]
+  },
+  {
+    "topic": "更上一层楼",
+    "highlight": "上",
+    "pinyin": "gèng shàng yī céng lóu",
+    "options": [
+      {
+        "id": "A",
+        "option": "上面",
+        "pinyin": "shàng miàn"
+      },
+      {
+        "id": "B",
+        "option": "上边",
+        "pinyin": "shàng biān"
+      },
+      {
+        "id": "C",
+        "option": "上去",
+        "pinyin": "shàng quù"
+      }
+    ]
+  }
+]
