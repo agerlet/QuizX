@@ -7,27 +7,32 @@ import 'moment-timezone';
 
 function TwoAncientPoems({ students }: Students) {
     const [answers_0, setAnswers_0] = useState<Answer[]>();
+    const [answers_1, setAnswers_1] = useState<Answer[]>();
 
     useEffect(() => {
         api
             .getAnswers("TwoAncientPoems_5")
             .then((response) => setAnswers_0(response.data));
     }, []);
-
-    const getAnswer = (studentId: string) => {
-        if (!answers_0) return null;
-
-        for (let i = 0; i < answers_0.length; i++) {
-            if (answers_0[i].studentId === studentId) {
-                return answers_0[i];
+    
+    useEffect(() => {
+        api
+            .getAnswers("TwoAncientPoems_7")
+            .then((response) => setAnswers_1(response.data));
+    }, []);
+    
+    const lookupAnswer = (answers : Answer[] | undefined, studentId : string) => {
+        if (!answers) return null;
+        for (let i = 0; i < answers.length; i++) {
+            if (answers[i].studentId === studentId) {
+                return answers[i];
             }
         }
-
         return null;
     };
-
-    function joinAnswers(studentId: string) {
-        const answer: Answer | null = getAnswer(studentId);
+    
+    function joinAnswers_0(studentId: string) {
+        const answer: Answer | null = lookupAnswer(answers_0, studentId);
         if (!!answer) {
             let answers = [];
             for(let i = 0; i < answer.answers.length - 1; i += 2)
@@ -37,6 +42,50 @@ function TwoAncientPoems({ students }: Students) {
             return answers.map((_) => (_.length === 0 ? "''" : _)).join(", ");
         }
         return "";
+    }
+
+    function joinAnswers(answers: Answer[] | undefined, studentId: string) {
+        const answer: Answer | null = lookupAnswer(answers, studentId);
+        if (!answer) return "";
+        return answer.answers.map(_ => (_.length === 0 ? "''" : _)).join(", ");
+    }
+    
+    function renderAnswers(answer : (Answer | null)[], answers : string[]) {
+        var collection = answer.map((a, i) => {
+            return {
+                answer: a, 
+                answers: answers[i]
+            };
+        });
+        
+        return (
+            <>
+                {collection.map((_, i) => {
+                    return (
+                        <>
+                            {i > 0 && <br />}
+                            {_.answer && _.answer.completeAt && (
+                                <span style={{ color: "green" }}>{_.answers}</span>
+                            )}
+                            {(!_.answer || !_.answer.completeAt) && _.answers}
+                        </>
+                    )
+                })}
+            </>
+        )
+    }
+    
+    function renderElaspe(answers: (Answer | null)[]) {
+        return (
+            <>
+                {answers.map(_ => _ && _.completeAt && (
+                    <Moment
+                        duration={_.arriveAt}
+                        date={_.completeAt}
+                    />)
+                )}
+            </>
+        );
     }
 
     return (
@@ -56,11 +105,17 @@ function TwoAncientPoems({ students }: Students) {
                     .map((_: Student) => {
                         return {
                             student: _,
-                            answers: joinAnswers(_.studentId),
-                            answer: getAnswer(_.studentId),
+                            answers: [
+                                joinAnswers_0(_.studentId),
+                                joinAnswers(answers_1, _.studentId)
+                            ],
+                            answer: [
+                                lookupAnswer(answers_0, _.studentId),
+                                lookupAnswer(answers_1, _.studentId)
+                            ]
                         };
                     })
-                    .map((_) => (
+                    .map(_ => (
                         <tr key={_.student.studentId}>
                             <td>{_.student.chineseName}</td>
                             <td>{_.student.englishName}</td>
@@ -68,18 +123,10 @@ function TwoAncientPoems({ students }: Students) {
                                 {config.studentPortalUrl}/TwoAncientPoems/{_.student.studentId}
                             </td>
                             <td data-testid={_.student.studentId + "-answers"}>
-                                {_.answer && _.answer.completeAt && (
-                                    <span style={{ color: "green" }}>{_.answers}</span>
-                                )}
-                                {(!_.answer || !_.answer.completeAt) && _.answers}
+                                {renderAnswers(_.answer, _.answers)}
                             </td>
                             <td data-testid={_.student.studentId + "-elapse"}>
-                                {_.answer && _.answer.completeAt && (
-                                    <Moment
-                                        duration={_.answer.arriveAt}
-                                        date={_.answer.completeAt}
-                                    />
-                                )}
+                                {renderElaspe(_.answer)}
                             </td>
                         </tr>
                     ))}
