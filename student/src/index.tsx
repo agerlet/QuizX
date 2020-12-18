@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import BabyWhiteCloud from './BabyWhiteCloud';
 import TwoAncientPoems from './TwoAncientPoems';
+import TwoAncientPoems2 from './TwoAncientPoems2';
 import reportWebVitals from './reportWebVitals';
 import {
     BrowserRouter as Router,
@@ -15,13 +16,16 @@ const renderBabyWhiteCloud=({match}:RouteComponentProps<any>) => {
     return (
         <BabyWhiteCloud studentId={match.params.studentId} />
     );
-}
+};
 
 const renderTwoAncientPoems=({match}:RouteComponentProps<any>) => {
     return (
-        <TwoAncientPoems studentId={match.params.studentId} />
+        <>
+            {(match.params.pageId ?? "1") === "1" && <TwoAncientPoems studentId={match.params.studentId} />}
+            {match.params.pageId === "2" && <TwoAncientPoems2 studentId={match.params.studentId} />}
+        </>
     );
-}
+};
 
 ReactDOM.render(
     <React.StrictMode>
@@ -30,7 +34,7 @@ ReactDOM.render(
                 <Route path="/quiz/BabyWhiteCloud/:studentId">
                     {renderBabyWhiteCloud}
                 </Route>
-                <Route path="/quiz/TwoAncientPoems/:studentId">
+                <Route path="/quiz/TwoAncientPoems/:studentId/:pageId?" exact={true}>
                     {renderTwoAncientPoems}
                 </Route>
             </Switch>

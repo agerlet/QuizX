@@ -11,15 +11,15 @@ using Microsoft.Extensions.Logging;
 
 namespace api.Quiz.CommandHandlers
 {
-    public class TwoAncientPoems5CommandHandler : INotificationHandler<QuizAnswerCommand>
+    public class TwoAncientPoems7CommandHandler : INotificationHandler<QuizAnswerCommand>
     {
-        private const string HandleQuizId = "TwoAncientPoems_5";
-        private static readonly string[] Answers = { "睡觉", "故乡", "望月", "举手", "楼房", "自己" };
+        private const string HandleQuizId = "TwoAncientPoems_7";
+        private static readonly string[] Answers = { "B", "A", "B", "C", "C" };
 
         private readonly Repository _repository;
-        private readonly ILogger<TwoAncientPoems5CommandHandler> _logger;
+        private readonly ILogger<TwoAncientPoems7CommandHandler> _logger;
 
-        public TwoAncientPoems5CommandHandler(Repository repository, ILogger<TwoAncientPoems5CommandHandler> logger)
+        public TwoAncientPoems7CommandHandler(Repository repository, ILogger<TwoAncientPoems7CommandHandler> logger)
         {
             _repository = repository;
             _logger = logger;
@@ -31,7 +31,7 @@ namespace api.Quiz.CommandHandlers
             _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
             if (!(command.Answers?.Any() ?? false)) 
             {
-                _logger.LogInformation("Missing answers for TwoAncientPoems_5 command.");
+                _logger.LogInformation("Missing answers for TwoAncientPoems_7 command.");
                 return Task.CompletedTask;
             }
             
@@ -43,18 +43,9 @@ namespace api.Quiz.CommandHandlers
 
         private static bool IsCorrectAnswer(QuizAnswerModel model)
         {
-            if (model.Answers.Count(_ => !string.IsNullOrWhiteSpace(_)) != 12) return false;
+            if (model.Answers.Count(_ => !string.IsNullOrWhiteSpace(_)) != 5) return false;
 
-            var answers = model.Answers
-                .Where((c, i) => i % 2 == 0)
-                .Zip(model.Answers.Where((c, i) => i % 2 != 0), (first, second) => first + second)
-                .OrderBy(_ => _)
-                .Join(Answers.OrderBy(_ => _), 
-                    _ => _, 
-                    _ => _, 
-                    (x, y) => x == y);
-            
-            return answers.Count() == 6;
+            return model.Answers.SequenceEqual(Answers);
         }
     }
 }

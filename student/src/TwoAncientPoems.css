@@ -4,14 +4,77 @@
     line-height: 2rem;
     text-align: center;
 }
+.two-ancient-poems-container h1 {
+    font-size: 3rem;    
+}
+
+.two-ancient-poems-container h1 .pinyin {
+    font-size: 1.63rem;
+    margin-bottom: 0.6rem;
+}
 
 .two-ancient-poems-container table {
     margin: 2rem auto;
 }
 
+.two-ancient-poems-container table.topics {
+    width: 75%;
+}
+
+.two-ancient-poems-container .topics .highlight {
+    position: absolute;
+    line-height: 3.5rem;
+    width: 2rem;
+    color: red;
+}
+
 .two-ancient-poems-container table td {
     height: 8rem;
     width: 8rem;
+}
+
+.two-ancient-poems-container table.topics td {
+    height: 5rem;
+}
+
+.two-ancient-poems-container table .id-column {
+    width: 5%;
+}
+
+.two-ancient-poems-container table .options {
+    width: 60%;
+}
+
+.two-ancient-poems-container table .options ul {
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.two-ancient-poems-container table .options li {
+    display: inline-block;
+    width: 33%;
+    text-align: left;
+}
+
+.two-ancient-poems-container table .options a {
+    color: black;
+    text-decoration: none;
+}
+
+.two-ancient-poems-container table .options a:hover,
+.two-ancient-poems-container table .options a.selected {
+    cursor: pointer;
+    background-color: yellow;
+}
+
+.two-ancient-poems-container table .container {
+    display: inline-block;
+    margin-left: 0.75rem;
+}
+
+.two-ancient-poems-container table .container .pinyin {
+    text-align: center;
 }
 
 .two-ancient-poems-container .pinyin {
