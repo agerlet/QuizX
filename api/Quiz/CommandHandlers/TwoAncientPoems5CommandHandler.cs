@@ -48,11 +48,13 @@ namespace api.Quiz.CommandHandlers
             var answers = model.Answers
                 .Where((c, i) => i % 2 == 0)
                 .Zip(model.Answers.Where((c, i) => i % 2 != 0), (first, second) => first + second)
-                .OrderBy(_ => _);
+                .OrderBy(_ => _)
+                .Join(Answers.OrderBy(_ => _), 
+                    _ => _, 
+                    _ => _, 
+                    (x, y) => x == y);
             
-            return answers
-                .Join(Answers.OrderBy(_ => _), _ => _, _ => _, (x, y) => x == y)
-                .All(_ => _);
+            return answers.Count() == 6;
         }
     }
 }
