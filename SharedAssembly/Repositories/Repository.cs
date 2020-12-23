@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SharedAssembly.Models;
 
-namespace api.Repositories
+namespace SharedAssembly.Repositories
 {
     public class Repository
     {

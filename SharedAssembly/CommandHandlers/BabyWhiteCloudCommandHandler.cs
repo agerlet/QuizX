@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using api.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedAssembly.Repositories;
 
 namespace SharedAssembly.CommandHandlers
 {

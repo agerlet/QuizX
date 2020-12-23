@@ -2,11 +2,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using api.Repositories;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Microsoft.Extensions.Logging.Abstractions;
 using SharedAssembly.CommandHandlers;
+using SharedAssembly.Repositories;
 using Xunit;
 
 namespace SharedAssembly.Tests.UnitTests

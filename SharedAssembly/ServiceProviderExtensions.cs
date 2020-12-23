@@ -1,9 +1,9 @@
 using System.Reflection;
 using Amazon.Lambda.Core;
-using api.Repositories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SharedAssembly.Repositories;
 
 namespace SharedAssembly
 {
