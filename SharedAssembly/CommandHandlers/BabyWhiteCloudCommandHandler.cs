@@ -23,21 +23,20 @@ namespace SharedAssembly.CommandHandlers
             _logger = logger;
         }
 
-        public Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
+        public async Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
         {
-            if (!command.QuizId.Equals(HandleQuizId, StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
+            if (!command.QuizId.Equals(HandleQuizId, StringComparison.CurrentCultureIgnoreCase)) return;
             _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
             if (!(command.Answers?.Any() ?? false)) 
             {
                 _logger.LogInformation("Missing answers for BabyWhiteCloud command.");
-                return Task.CompletedTask;
+                return;
             }
 
             var model = command.ToQuizAnswerModel();
             model.CompleteAt = model.Answers.SequenceEqual(Answers) ? DateTime.UtcNow : default(DateTime?);
-            _repository.Save(model);
+            await _repository.Save(model);
             command.Handled();
-            return Task.CompletedTask;
         }
     }
 }

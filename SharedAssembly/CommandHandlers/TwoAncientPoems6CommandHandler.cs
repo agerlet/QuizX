@@ -24,21 +24,20 @@ namespace SharedAssembly.CommandHandlers
             _logger = logger;
         }
         
-        public Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
+        public async Task Handle(QuizAnswerCommand command, CancellationToken cancellationToken)
         {
-            if (!command.QuizId.Equals(HandleQuizId, StringComparison.CurrentCultureIgnoreCase)) return Task.CompletedTask;
+            if (!command.QuizId.Equals(HandleQuizId, StringComparison.CurrentCultureIgnoreCase)) return;
             _logger.LogInformation($"Received QuizAnswerCommand ({JsonSerializer.Serialize(command)})");
             if (!(command.Answers?.Any() ?? false)) 
             {
                 _logger.LogInformation("Missing answers for TwoAncientPoems_6 command.");
-                return Task.CompletedTask;
+                return;
             }
             
             var model = command.ToQuizAnswerModel();
             model.CompleteAt = IsCorrectAnswer(model) ? DateTime.UtcNow : default(DateTime?);
-            _repository.Save(model);
+            await _repository.Save(model);
             command.Handled();
-            return Task.CompletedTask;
         }
 
         private static bool IsCorrectAnswer(QuizAnswerModel model)

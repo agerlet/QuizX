@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MediatR;
 using SharedAssembly.Models;
 
@@ -7,7 +8,7 @@ namespace SharedAssembly.CommandHandlers
     {
         public string StudentId { get; set; }
         public string QuizId { get; set; }
-        public string[] Answers { get; set; }
+        public List<string> Answers { get; set; }
         public bool IsHandled { get; private set; }
 
         public void Handled() => IsHandled = true;

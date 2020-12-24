@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             
             // Act
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Length.Should().Be(1);
+            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(1);
         }
         [Fact]
         public async Task Should_persist_another_BabyWhiteCloudCommand()
@@ -33,15 +34,15 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "a", "b", "c", "d", "e" } };
-            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "def", QuizId = "BabyWhiteCloud", Answers = new[] { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "def", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             
             // Act
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Length.Should().Be(2);
+            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(2);
         }
         [Fact]
         public async Task Should_update_the_same_BabyWhiteCloudCommand()
@@ -49,16 +50,16 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "a", "b", "c", "d", "e" } };
-            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "e", "b", "c", "d", "a" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "e", "b", "c", "d", "a" } };
             
             // Act
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Should().HaveCount(1);
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
+            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(1);
+            (await repository.Query("BabyWhiteCloud")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
         }
         [Fact]
         public async Task Should_not_throw_exception_when_answers_are_missing_or_empty()
@@ -91,22 +92,22 @@ namespace SharedAssembly.Tests.UnitTests
             var repository = new Repository();
             var logger = NullLogger<BabyWhiteCloudCommandHandler>.Instance;
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, logger);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" } };
 
             // Act
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("BabyWhiteCloud")).Single().CompleteAt.Should().NotBeNull();
             
             // Arrange
-            quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new[] { "雪花", "变成", "甜", "尝一尝", "甜", "" } };
+            quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "雪花", "变成", "甜", "尝一尝", "甜", "" } };
 
             // Act
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "BabyWhiteCloud").Single().CompleteAt.Should().BeNull();
+            (await repository.Query("BabyWhiteCloud")).Single().CompleteAt.Should().BeNull();
         }
     }
 }

@@ -1,39 +1,34 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using SharedAssembly.Models;
 
 namespace SharedAssembly.Repositories
 {
     public class Repository
     {
-        private readonly Dictionary<string, Dictionary<string, QuizAnswerModel>> _inMemoryDb = new();
-        
-        public void Save(QuizAnswerModel model)
+        public async Task Save(QuizAnswerModel model)
         {
-            if (!_inMemoryDb.ContainsKey(model.QuizId))
+            using var client = new AmazonDynamoDBClient();
+            using var dbContext = new DynamoDBContext(client);
+            var dynamoDbOperationConfig = new DynamoDBOperationConfig
             {
-                _inMemoryDb.Add(model.QuizId, new Dictionary<string, QuizAnswerModel>());
-            }
-
-            var quiz = _inMemoryDb[model.QuizId];
-            if (quiz.ContainsKey(model.StudentId))
-            {
-                quiz[model.StudentId].Answers = model.Answers;
-                quiz[model.StudentId].CompleteAt = model.CompleteAt;
-            }
-            else
-            {
-                model.ArriveAt = DateTime.UtcNow;
-                quiz.Add(model.StudentId, model);
-            }
+                Conversion = DynamoDBEntryConversion.V2,
+                IsEmptyStringValueEnabled = true
+            };
+            await dbContext.SaveAsync(model, dynamoDbOperationConfig);
         }
 
-        public QuizAnswerModel[] Query(Func<KeyValuePair<string, Dictionary<string, QuizAnswerModel>>, bool> predicate)
+        public async Task<List<QuizAnswerModel>> Query(string quizId)
         {
-            var (_, value) = _inMemoryDb.SingleOrDefault(predicate);
+            using var client = new AmazonDynamoDBClient();
+            using var dbContext = new DynamoDBContext(client);
 
-            return value == null ? Array.Empty<QuizAnswerModel>() : value.Select(_ => _.Value).ToArray();
+            var scanConditions = new[] {new ScanCondition("QuizId", ScanOperator.Equal, quizId)};
+            var search = dbContext.ScanAsync<QuizAnswerModel>(scanConditions);
+            return await search.GetRemainingAsync();
         }
     }
 }

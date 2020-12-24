@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using SharedAssembly.CommandHandlers;
-using Student.Lambda;
 
 namespace lambda.Tests
 {
     public class PostFunctionTestData : IEnumerable<object[]>
     {
-        private List<object[]> _data = new List<object[]>()
+        private List<object[]> _data = new()
         {
             new object[]
             {
@@ -16,7 +15,7 @@ namespace lambda.Tests
                 {
                     QuizId = "Unknown",
                     StudentId = "abc",
-                    Answers = new []{ "", "", "", "", "", ""}
+                    Answers = new List<string> { "", "", "", "", "", ""}
                 },
                 HttpStatusCode.BadRequest,
                 "Unknown QuizId should end with BadRequest."
@@ -27,7 +26,7 @@ namespace lambda.Tests
                 {
                     QuizId = "BabyWhiteCloud",
                     StudentId = "abc",
-                    Answers = new []{ "", "", "", "", "", ""}
+                    Answers = new List<string> { "", "", "", "", "", ""}
                 },
                 HttpStatusCode.Created,
                 "Handle the known quizId only."

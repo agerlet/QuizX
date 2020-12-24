@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var handler = new TwoAncientPoems5CommandHandler(repository, NullLogger<TwoAncientPoems5CommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new[] { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Length.Should().Be(1);
+            (await repository.Query("TwoAncientPoems_5")).Should().HaveCount(1);
         }
         [Fact]
         public async Task Should_persist_another_BabyWhiteCloudCommand()
@@ -33,15 +34,15 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var handler = new TwoAncientPoems5CommandHandler(repository, NullLogger<TwoAncientPoems5CommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new[] { "a", "b", "c", "d", "e" } };
-            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "def", QuizId = "TwoAncientPoems_5", Answers = new[] { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new List<string> { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "def", QuizId = "TwoAncientPoems_5", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
             await handler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Length.Should().Be(2);
+            (await repository.Query("TwoAncientPoems_5")).Should().HaveCount(2);
         }
         [Fact]
         public async Task Should_update_the_same_BabyWhiteCloudCommand()
@@ -49,16 +50,16 @@ namespace SharedAssembly.Tests.UnitTests
             // Arrange
             var repository = new Repository();
             var handler = new TwoAncientPoems5CommandHandler(repository, NullLogger<TwoAncientPoems5CommandHandler>.Instance);
-            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new[] { "a", "b", "c", "d", "e" } };
-            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new[] { "e", "b", "c", "d", "a" } };
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new List<string> { "a", "b", "c", "d", "e" } };
+            var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "abc", QuizId = "TwoAncientPoems_5", Answers = new List<string> { "e", "b", "c", "d", "a" } };
             
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
             await handler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Should().HaveCount(1);
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
+            (await repository.Query("TwoAncientPoems_5")).Should().HaveCount(1);
+            (await repository.Query("TwoAncientPoems_5")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
         }
         [Fact]
         public async Task Should_not_throw_exception_when_answers_are_missing_or_empty()
@@ -94,27 +95,27 @@ namespace SharedAssembly.Tests.UnitTests
             var quizAnswerCommand = new QuizAnswerCommand
             {
                 StudentId = "abc", QuizId = "TwoAncientPoems_5",
-                Answers = new[] {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "自", "己"}
+                Answers = new List<string> {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "自", "己"}
             };
 
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().NotBeNull();
 
             // Arrange
             quizAnswerCommand = new QuizAnswerCommand
             {
                 StudentId = "abc", QuizId = "TwoAncientPoems_5",
-                Answers = new[] {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "", ""}
+                Answers = new List<string> {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "", ""}
             };
 
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_not_complete_test_for_incorrect_number_of_answers()
@@ -126,14 +127,14 @@ namespace SharedAssembly.Tests.UnitTests
             var quizAnswerCommand = new QuizAnswerCommand
             {
                 StudentId = "abc", QuizId = "TwoAncientPoems_5",
-                Answers = new[] {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "", ""}
+                Answers = new List<string> {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "", ""}
             };
 
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_not_complete_test_for_odd_number_of_answers()
@@ -145,14 +146,14 @@ namespace SharedAssembly.Tests.UnitTests
             var quizAnswerCommand = new QuizAnswerCommand
             {
                 StudentId = "abc", QuizId = "TwoAncientPoems_5",
-                Answers = new[] {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "自"}
+                Answers = new List<string> {"睡", "觉", "故", "乡", "望", "月", "举", "手", "楼", "房", "自"}
             };
 
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_complete_test_when_answer_is_in_random_order()
@@ -164,14 +165,14 @@ namespace SharedAssembly.Tests.UnitTests
             var quizAnswerCommand = new QuizAnswerCommand
             {
                 StudentId = "abc", QuizId = "TwoAncientPoems_5",
-                Answers = new[] {"故", "乡", "睡", "觉", "楼", "房", "望", "月", "自", "己", "举", "手"}
+                Answers = new List<string> {"故", "乡", "睡", "觉", "楼", "房", "望", "月", "自", "己", "举", "手"}
             };
 
             // Act
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            repository.Query(_ => _.Key == "TwoAncientPoems_5").Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().NotBeNull();
         }
     }
 }

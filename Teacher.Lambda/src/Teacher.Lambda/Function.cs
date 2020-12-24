@@ -2,6 +2,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,7 @@ namespace Teacher.Lambda
         /// <param name="args"></param>
         private static async Task Main(string[] args)
         {
-            Func<QuizResultQuery, ILambdaContext, Task<QuizAnswerModel[]>> func = Handler;
+            Func<QuizResultQuery, ILambdaContext, Task<List<QuizAnswerModel>>> func = Handler;
             using var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new DefaultLambdaJsonSerializer());
             using var bootstrap = new LambdaBootstrap(handlerWrapper);
             await bootstrap.RunAsync();
@@ -40,13 +41,11 @@ namespace Teacher.Lambda
         /// <param name="query">QuizResultQuery</param>
         /// <param name="context">ILambdaContext</param>
         /// <returns></returns>
-        public static async Task<QuizAnswerModel[]> Handler(QuizResultQuery query, ILambdaContext context)
+        public static async Task<List<QuizAnswerModel>> Handler(QuizResultQuery query, ILambdaContext context)
         {
             var provider = context.GetServiceProvider();
-
             var mediator = provider.GetService<IMediator>();
             var quizAnswers = await mediator.Send(query);
-
             return quizAnswers;
         }
     }

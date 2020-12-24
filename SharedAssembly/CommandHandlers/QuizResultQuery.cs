@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,7 +8,7 @@ using SharedAssembly.Repositories;
 
 namespace SharedAssembly.CommandHandlers
 {
-    public class QuizResultQuery : IRequest<QuizAnswerModel[]>
+    public class QuizResultQuery : IRequest<List<QuizAnswerModel>>
     {
         public string QuizId { get; init; }
 
@@ -17,7 +18,7 @@ namespace SharedAssembly.CommandHandlers
         }
     }
 
-    public class QuizResultQueryHandler : IRequestHandler<QuizResultQuery, QuizAnswerModel[]>
+    public class QuizResultQueryHandler : IRequestHandler<QuizResultQuery, List<QuizAnswerModel>>
     {
         private readonly Repository _repository;
         private readonly ILogger<QuizResultQueryHandler> _logger;
@@ -27,11 +28,11 @@ namespace SharedAssembly.CommandHandlers
             _repository = repository;
             _logger = logger;
         }
-        public Task<QuizAnswerModel[]> Handle(QuizResultQuery request, CancellationToken cancellationToken)
+        public async Task<List<QuizAnswerModel>> Handle(QuizResultQuery request, CancellationToken cancellationToken)
         {
-            var results = _repository.Query(_ => request.QuizId == _.Key);
-            _logger.LogInformation($"Found {results.Length} answer(s).");
-            return Task.FromResult(results);
+            var results = await _repository.Query(request.QuizId);
+            _logger.LogInformation($"Found {results.Count} answer(s).");
+            return results;
         }
     }
 }
