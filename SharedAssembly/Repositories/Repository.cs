@@ -21,7 +21,8 @@ namespace SharedAssembly.Repositories
             var dynamoDbOperationConfig = new DynamoDBOperationConfig
             {
                 Conversion = DynamoDBEntryConversion.V2,
-                IsEmptyStringValueEnabled = true
+                IsEmptyStringValueEnabled = true,
+                OverrideTableName = "QuizX"
             };
             await _dynamoDbContext.SaveAsync(model, dynamoDbOperationConfig);
         }
@@ -37,7 +38,11 @@ namespace SharedAssembly.Repositories
                 scanConditions.Add(new ScanCondition("StudentId", ScanOperator.Equal, studentId));
             }
 
-            var search = _dynamoDbContext.ScanAsync<QuizAnswerModel>(scanConditions);
+            var dynamoDbOperationConfig = new DynamoDBOperationConfig
+            {
+                OverrideTableName = "QuizX"
+            };
+            var search = _dynamoDbContext.ScanAsync<QuizAnswerModel>(scanConditions, dynamoDbOperationConfig);
             return await search.GetRemainingAsync();
         }
     }

@@ -9,7 +9,7 @@ namespace Teacher.Lambda.Tests
     public class FunctionTest
     {
         [Fact]
-        public async Task Should_get_empty_collection_in_the_beginning()
+        public async Task Should_get_a_collection()
         {
             // Invoke the lambda function and confirm the string was upper cased.
             var context = new TestLambdaContext();
@@ -17,7 +17,6 @@ namespace Teacher.Lambda.Tests
             var answers = await Function.Handler(query, context);
 
             answers.Should().NotBeNull();
-            answers.Should().BeEmpty();
         }
     }
 }

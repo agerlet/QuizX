@@ -2,6 +2,7 @@ using System.Reflection;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.Core;
+using Amazon.Lambda.TestUtilities;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,10 @@ namespace SharedAssembly
                     .AddScoped<Repository>()
                     .AddScoped<IDynamoDBContext>(_ =>
                     {
-                        var client = new AmazonDynamoDBClient();
+                        var localConfig = new AmazonDynamoDBConfig {ServiceURL = "http://localhost:8000"};
+                        var client = context is TestLambdaContext 
+                            ? new AmazonDynamoDBClient(localConfig) 
+                            : new AmazonDynamoDBClient();
                         return new DynamoDBContext(client);
                     })
                     ;

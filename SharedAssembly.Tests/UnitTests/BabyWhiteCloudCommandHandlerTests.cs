@@ -35,7 +35,7 @@ namespace SharedAssembly.Tests.UnitTests
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
             
             // Assert
-            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(1);
+            (await repository.Query("BabyWhiteCloud", "abc")).Should().HaveCount(1);
         }
         [Fact]
         public async Task Should_persist_another_BabyWhiteCloudCommand()
@@ -67,8 +67,8 @@ namespace SharedAssembly.Tests.UnitTests
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(1);
-            (await repository.Query("BabyWhiteCloud")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
+            (await repository.Query("BabyWhiteCloud", "abc")).Should().HaveCount(1);
+            (await repository.Query("BabyWhiteCloud", "abc")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
         }
         [Fact]
         public async Task Should_not_throw_exception_when_answers_are_missing_or_empty()
@@ -107,7 +107,7 @@ namespace SharedAssembly.Tests.UnitTests
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("BabyWhiteCloud")).Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("BabyWhiteCloud", "abc")).Single().CompleteAt.Should().NotBeNull();
             
             // Arrange
             quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "雪花", "变成", "甜", "尝一尝", "甜", "" } };
@@ -116,7 +116,7 @@ namespace SharedAssembly.Tests.UnitTests
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("BabyWhiteCloud")).Single().CompleteAt.Should().BeNull();
+            (await repository.Query("BabyWhiteCloud", "abc")).Single().CompleteAt.Should().BeNull();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
             
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Should().HaveCount(1);
+            (await repository.Query("TwoAncientPoems_5", "abc")).Should().HaveCount(1);
         }
         [Fact]
         public async Task Should_persist_another_BabyWhiteCloudCommand()
@@ -67,8 +67,8 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Should().HaveCount(1);
-            (await repository.Query("TwoAncientPoems_5")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
+            (await repository.Query("TwoAncientPoems_5", "abc")).Should().HaveCount(1);
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().Answers.Should().IsSameOrEqualTo(new[] {"e", "b", "c", "d", "a"});
         }
         [Fact]
         public async Task Should_not_throw_exception_when_answers_are_missing_or_empty()
@@ -111,7 +111,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().CompleteAt.Should().NotBeNull();
 
             // Arrange
             quizAnswerCommand = new QuizAnswerCommand
@@ -124,7 +124,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_not_complete_test_for_incorrect_number_of_answers()
@@ -143,7 +143,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_not_complete_test_for_odd_number_of_answers()
@@ -162,7 +162,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().BeNull();
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().CompleteAt.Should().BeNull();
         }
         [Fact]
         public async Task Should_complete_test_when_answer_is_in_random_order()
@@ -181,7 +181,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand, CancellationToken.None);
 
             // Assert
-            (await repository.Query("TwoAncientPoems_5")).Single().CompleteAt.Should().NotBeNull();
+            (await repository.Query("TwoAncientPoems_5", "abc")).Single().CompleteAt.Should().NotBeNull();
         }
     }
 }

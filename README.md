@@ -35,3 +35,14 @@ For more info, please find this [README.md](./student/README.md) for student por
 The teacher portal is a react project to present the answers to the teacher.
 
 For more info, please find this [README.md](./teacher/README.md) for teacher portal.
+
+## Unit tests
+
+Some of the unit tests reply on the docker container dynamodb-local. 
+
+    # At the root of this repository, run the following script to start dynamodb-local.
+    $ ./scripts/start-dynamodb-local.sh
+
+    # At the root of this repository, run the following script to stop & remove dynamodb-local.
+    $ ./scripts/stop-dynamodb-local.sh
+
