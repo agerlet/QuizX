@@ -9,25 +9,35 @@ namespace SharedAssembly.Repositories
 {
     public class Repository
     {
+        private readonly IDynamoDBContext _dynamoDbContext;
+
+        public Repository(IDynamoDBContext dynamoDbContext)
+        {
+            _dynamoDbContext = dynamoDbContext;
+        }
+        
         public async Task Save(QuizAnswerModel model)
         {
-            using var client = new AmazonDynamoDBClient();
-            using var dbContext = new DynamoDBContext(client);
             var dynamoDbOperationConfig = new DynamoDBOperationConfig
             {
                 Conversion = DynamoDBEntryConversion.V2,
                 IsEmptyStringValueEnabled = true
             };
-            await dbContext.SaveAsync(model, dynamoDbOperationConfig);
+            await _dynamoDbContext.SaveAsync(model, dynamoDbOperationConfig);
         }
 
-        public async Task<List<QuizAnswerModel>> Query(string quizId)
+        public async Task<List<QuizAnswerModel>> Query(string quizId, string studentId = null)
         {
-            using var client = new AmazonDynamoDBClient();
-            using var dbContext = new DynamoDBContext(client);
+            var scanConditions = new List<ScanCondition>
+            {
+                new("QuizId", ScanOperator.Equal, quizId)
+            };
+            if (!string.IsNullOrWhiteSpace(studentId))
+            {
+                scanConditions.Add(new ScanCondition("StudentId", ScanOperator.Equal, studentId));
+            }
 
-            var scanConditions = new[] {new ScanCondition("QuizId", ScanOperator.Equal, quizId)};
-            var search = dbContext.ScanAsync<QuizAnswerModel>(scanConditions);
+            var search = _dynamoDbContext.ScanAsync<QuizAnswerModel>(scanConditions);
             return await search.GetRemainingAsync();
         }
     }

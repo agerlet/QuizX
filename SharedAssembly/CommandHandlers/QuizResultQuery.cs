@@ -10,7 +10,7 @@ namespace SharedAssembly.CommandHandlers
 {
     public class QuizResultQuery : IRequest<List<QuizAnswerModel>>
     {
-        public string QuizId { get; init; }
+        public string QuizId { get; }
 
         public QuizResultQuery(string quizId)
         {

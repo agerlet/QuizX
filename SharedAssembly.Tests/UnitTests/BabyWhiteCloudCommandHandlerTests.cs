@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using FluentAssertions;
 using FluentAssertions.Common;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -14,11 +16,18 @@ namespace SharedAssembly.Tests.UnitTests
 {
     public class BabyWhiteCloudCommandHandlerTests
     {
+        private IDynamoDBContext _dbContext;
+
+        public BabyWhiteCloudCommandHandlerTests()
+        {
+            var client = new AmazonDynamoDBClient();
+            _dbContext = new DynamoDBContext(client);
+        }
         [Fact]
         public async Task Should_persist_BabyWhiteCloudCommand()
         {
             // Arrange
-            var repository = new Repository();
+            var repository = new Repository(_dbContext);
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
             var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             
@@ -32,7 +41,7 @@ namespace SharedAssembly.Tests.UnitTests
         public async Task Should_persist_another_BabyWhiteCloudCommand()
         {
             // Arrange
-            var repository = new Repository();
+            var repository = new Repository(_dbContext);
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
             var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "def", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
@@ -48,7 +57,7 @@ namespace SharedAssembly.Tests.UnitTests
         public async Task Should_update_the_same_BabyWhiteCloudCommand()
         {
             // Arrange
-            var repository = new Repository();
+            var repository = new Repository(_dbContext);
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
             var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "a", "b", "c", "d", "e" } };
             var quizAnswerCommand2 = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "e", "b", "c", "d", "a" } };
@@ -65,7 +74,7 @@ namespace SharedAssembly.Tests.UnitTests
         public async Task Should_not_throw_exception_when_answers_are_missing_or_empty()
         {
             // Arrange
-            var repository = new Repository();
+            var repository = new Repository(_dbContext);
             var logger = NullLogger<BabyWhiteCloudCommandHandler>.Instance;
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, logger);
             var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud" };
@@ -89,7 +98,7 @@ namespace SharedAssembly.Tests.UnitTests
         public async Task Should_complete_test_when_answers_are_correct()
         {
             // Arrange
-            var repository = new Repository();
+            var repository = new Repository(_dbContext);
             var logger = NullLogger<BabyWhiteCloudCommandHandler>.Instance;
             var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, logger);
             var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "雪花", "变成", "甜", "尝一尝", "甜", "凉凉" } };
