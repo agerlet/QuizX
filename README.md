@@ -1,8 +1,8 @@
-# What is xed?
+# What is QuizX?
 
-The xed is a tool to help education.
+The QuizX is a tool to help education.
 
-The xed started from a simple idea/question: Choose the right words to complete the dialogue.
+The QuizX started from a simple idea/question: Choose the right words to complete the dialogue.
 
 In the beginning, it's just a paragraph with some words being pulled out. As the replacements, some textboxes are in the positions of the missing words.
 
@@ -12,7 +12,7 @@ The third iteration, the whole page should be able to work with the devices with
 
 ## Architecture
 
-The xed comes with 3 parts: 
+The QuizX comes with 4 parts: 
 - student Lambda Function 
 - student portal
 - teacher Lambda Function
