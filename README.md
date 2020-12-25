@@ -13,89 +13,36 @@ The third iteration, the whole page should be able to work with the devices with
 ## Architecture
 
 The xed comes with 3 parts: 
-- the service 
+- student Lambda Function 
 - student portal
+- teacher Lambda Function
 - teacher portal 
 
-### The service
+### The Lambda Functions
 
-The service is a dotnet core 3.1 WebAPI running in the background to collect data from student portal and get ready to be queried by the teacher portal.
+The Lambda Functions are .Net 5 Lambda Custom Runtime Functions to collect data from student portal and get ready to be queried by the teacher portal.
 
-#### Restore
-
-    # At the root of this repository, run the following command
-    $ dotnet restore
-
-#### Build
-
-    # At the root of this repository, run the following command
-    $ dotnet build
-
-#### Test
-
-    # At the root of this repository, run the following command
-    $ dotnet test
-    
-#### Run
-    
-    # At the root of this repository, run the following command
-    $ dotnet run --project ./api/api.csproj
-    
-#### Build docker container
-
-    # At the root of this repository, run the following command
-    # [tag] should be replaced by the actual tag name e.g. 0.03
-    # Go to Docker Hub to find out the latest tag
-    $ docker build -t agerlet/xed-api:[tag] .
-    
-    # login to docker hub
-    $ docker login 
-    $ docker push agerlet/xed-api:[tag]
+For more info, please find [this](./Teacher.Lambda/src/Teacher.Lambda/Readme.md) for teacher Lambda Function and [this](./Student.Lambda/src/Student.Lambda/Readme.md) for student Lambda Function.
 
 ### The student portal
 
 The student portal is a react project to present the quiz to the students and report the student activities.
 
-#### Install
-
-    # At the student directory of this repository, run the following command
-    $ yarn install
-
-#### Build
-
-    # At the student directory of this repository, run the following command
-    $ yarn build
-
-#### Test
-
-    # At the student of this repository, run the following command
-    $ yarn test
-    
-#### Run
-    
-    # At the student of this repository, run the following command
-    $ yarn start
+For more info, please find this [README.md](./student/README.md) for student portal. 
 
 ### The teacher portal
 
 The teacher portal is a react project to present the answers to the teacher.
 
-#### Install
+For more info, please find this [README.md](./teacher/README.md) for teacher portal.
 
-    # At the teacher directory of this repository, run the following command
-    $ yarn install
+## Unit tests
 
-#### Build
+Some of the unit tests reply on the docker container dynamodb-local. 
 
-    # At the teacher directory of this repository, run the following command
-    $ yarn build
+    # At the root of this repository, run the following script to start dynamodb-local.
+    $ ./scripts/start-dynamodb-local.sh
 
-#### Test
+    # At the root of this repository, run the following script to stop & remove dynamodb-local.
+    $ ./scripts/stop-dynamodb-local.sh
 
-    # At the teacher of this repository, run the following command
-    $ yarn test
-    
-#### Run
-    
-    ## At the teacher of this repository, run the following command
-    $ yarn start

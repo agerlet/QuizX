@@ -13,8 +13,8 @@
 					"script": {
 						"id": "13da8629-998d-460f-bed6-04773bfd7f7b",
 						"exec": [
-							"pm.test(\"should respond with 200\", () => {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"should respond with 201\", () => {",
+							"    pm.response.to.have.status(201);",
 							"})"
 						],
 						"type": "text/javascript"
@@ -26,7 +26,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"studentId\": \"abc\",\n    \"quizid\": \"123\",\n    \"answers\": [\n        \"a\",\n        \"b\",\n        \"c\",\n        \"d\",\n        \"e\"\n    ]\n}",
+					"raw": "{\n    \"studentId\": \"abc\",\n    \"quizId\": \"BabyWhiteCloud\",\n    \"answers\": [\n        \"\",\n        \"\",\n        \"\",\n        \"\",\n        \"\",\n        \"\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -34,11 +34,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/quiz/",
+					"raw": "{{baseUrl}}/api/quiz/",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"api",
 						"quiz",
 						""
 					]
@@ -66,13 +67,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/quiz/123",
+					"raw": "{{baseUrl}}/api/quiz/BabyWhiteCloud",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
+						"api",
 						"quiz",
-						"123"
+						"BabyWhiteCloud"
 					]
 				}
 			},
@@ -86,8 +88,8 @@
 					"script": {
 						"id": "df9cd545-c7f3-4ec5-bcde-aee98babe81c",
 						"exec": [
-							"pm.test(\"should respond with 405\", () => {",
-							"    pm.response.to.have.status(405);",
+							"pm.test(\"should respond with 403\", () => {",
+							"    pm.response.to.have.status(403);",
 							"})"
 						],
 						"type": "text/javascript"
