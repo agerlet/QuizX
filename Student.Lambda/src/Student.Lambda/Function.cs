@@ -2,8 +2,11 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SharedAssembly;
@@ -24,7 +27,7 @@ namespace Student.Lambda
         /// <param name="args"></param>
         private static async Task Main(string[] args)
         {
-            Func<QuizAnswerCommand, ILambdaContext, Task<HttpStatusCode>> func = Handler;
+            Func<APIGatewayProxyRequest, ILambdaContext, Task<APIGatewayProxyResponse>> func = Handler;
             using var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new DefaultLambdaJsonSerializer());
             using var bootstrap = new LambdaBootstrap(handlerWrapper);
             await bootstrap.RunAsync();
@@ -40,15 +43,25 @@ namespace Student.Lambda
         /// <param name="command">A QuizAnswerCommand</param>
         /// <param name="context">ILambdaContext</param>
         /// <returns>System.Threading.Tasks.Task</returns>
-        public static async Task<HttpStatusCode> Handler(QuizAnswerCommand command, ILambdaContext context)
+        public static async Task<APIGatewayProxyResponse> Handler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var provider = context.GetServiceProvider();
             var mediator = provider.GetService<IMediator>();
+            var command = JsonSerializer.Deserialize<QuizAnswerCommand>(request.Body,
+                new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
             await mediator.Publish(command);
-            
-            return command.IsHandled
-                ? await Task.FromResult(HttpStatusCode.Created)
-                : await Task.FromResult(HttpStatusCode.BadRequest);
+
+            return new APIGatewayProxyResponse
+            {
+                Body = string.Empty,
+                StatusCode = command.IsHandled ? (int) HttpStatusCode.Created : (int) HttpStatusCode.BadRequest,
+                Headers = new Dictionary<string, string>
+                {
+                    {"Access-Control-Allow-Headers", "Content-Type"},
+                    {"Access-Control-Allow-Origin", "http://student.quizx.cc"},
+                    {"Access-Control-Allow-Methods", "OPTIONS,POST"}
+                }
+            };
         }
     }
 }

@@ -1,8 +1,12 @@
+using System.Collections.Generic;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using Xunit;
 using Amazon.Lambda.TestUtilities;
 using FluentAssertions;
-using SharedAssembly.CommandHandlers;
+using SharedAssembly.Models;
 
 namespace Teacher.Lambda.Tests
 {
@@ -13,10 +17,13 @@ namespace Teacher.Lambda.Tests
         {
             // Invoke the lambda function and confirm the string was upper cased.
             var context = new TestLambdaContext();
-            var query = new QuizResultQuery("BabyWhiteCloud");
+            var query = new APIGatewayProxyRequest { PathParameters = new Dictionary<string, string> { {"quizid", "BabyWhiteCloud"}}};
             var answers = await Function.Handler(query, context);
 
             answers.Should().NotBeNull();
+            answers.StatusCode.Should().Be((int) HttpStatusCode.OK);
+            var quizAnswers = JsonSerializer.Deserialize<List<QuizAnswerModel>>(answers.Body);
+            quizAnswers.Should().NotBeNullOrEmpty();
         }
     }
 }

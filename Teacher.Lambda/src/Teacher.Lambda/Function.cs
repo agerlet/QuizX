@@ -3,11 +3,13 @@ using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Amazon.Lambda.APIGatewayEvents;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SharedAssembly;
-using SharedAssembly.Models;
 using SharedAssembly.CommandHandlers;
 
 // This project specifies the serializer used to convert Lambda event into .NET classes in the project's main 
@@ -25,7 +27,7 @@ namespace Teacher.Lambda
         /// <param name="args"></param>
         private static async Task Main(string[] args)
         {
-            Func<QuizResultQuery, ILambdaContext, Task<List<QuizAnswerModel>>> func = Handler;
+            Func<APIGatewayProxyRequest, ILambdaContext, Task<APIGatewayProxyResponse>> func = Handler;
             using var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new DefaultLambdaJsonSerializer());
             using var bootstrap = new LambdaBootstrap(handlerWrapper);
             await bootstrap.RunAsync();
@@ -41,12 +43,24 @@ namespace Teacher.Lambda
         /// <param name="query">QuizResultQuery</param>
         /// <param name="context">ILambdaContext</param>
         /// <returns></returns>
-        public static async Task<List<QuizAnswerModel>> Handler(QuizResultQuery query, ILambdaContext context)
+        public static async Task<APIGatewayProxyResponse> Handler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var provider = context.GetServiceProvider();
             var mediator = provider.GetService<IMediator>();
+            var query = new QuizResultQuery(request.PathParameters["quizid"]);
             var quizAnswers = await mediator.Send(query);
-            return quizAnswers;
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = (int) HttpStatusCode.OK,
+                Body = JsonSerializer.Serialize(quizAnswers, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase}),
+                Headers = new Dictionary<string, string>
+                {
+                    {"Content-Type", "application/json"},
+                    {"Access-Control-Allow-Headers", "Content-Type"},
+                    {"Access-Control-Allow-Origin", "http://teacher.quizx.cc"},
+                    {"Access-Control-Allow-Methods", "OPTIONS,GET"}
+                }
+            };
         }
     }
 }
