@@ -35,6 +35,10 @@ namespace SharedAssembly.CommandHandlers
             }
             
             var model = command.ToQuizAnswerModel();
+            if (model.Answers.All(string.IsNullOrWhiteSpace))
+            {
+                model.ArriveAt = DateTime.UtcNow;
+            }
             model.CompleteAt = IsCorrectAnswer(model) ? DateTime.UtcNow : default(DateTime?);
             await _repository.Save(model);
             command.Handled();

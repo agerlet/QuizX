@@ -17,11 +17,26 @@ namespace SharedAssembly.Tests.UnitTests
     public class BabyWhiteCloudCommandHandlerTests
     {
         private IDynamoDBContext _dbContext;
-
         public BabyWhiteCloudCommandHandlerTests()
         {
             var client = new AmazonDynamoDBClient();
             _dbContext = new DynamoDBContext(client);
+        }
+        [Fact]
+        public async Task Should_persist_BabyWhiteCloudCommand_with_arriveAt()
+        {
+            // Arrange
+            var timestamp = DateTime.UtcNow;
+            var repository = new Repository(_dbContext);
+            var babyWhiteCloudCommandHandler = new BabyWhiteCloudCommandHandler(repository, NullLogger<BabyWhiteCloudCommandHandler>.Instance);
+            var quizAnswerCommand = new QuizAnswerCommand { StudentId = "abc", QuizId = "BabyWhiteCloud", Answers = new List<string> { "", "", "", "", "" } };
+            
+            // Act
+            await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand, CancellationToken.None);
+            
+            // Assert
+            var answer = (await repository.Query("BabyWhiteCloud", "abc")).Single();
+            answer.ArriveAt.Should().BeAfter(timestamp);
         }
         [Fact]
         public async Task Should_persist_BabyWhiteCloudCommand()
@@ -93,7 +108,6 @@ namespace SharedAssembly.Tests.UnitTests
             // Assert
             exception.Should().BeNull();
         }
-        
         [Fact]
         public async Task Should_complete_test_when_answers_are_correct()
         {
