@@ -66,7 +66,7 @@ namespace SharedAssembly.Tests.UnitTests
             await babyWhiteCloudCommandHandler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            (await repository.Query("BabyWhiteCloud")).Should().HaveCount(2);
+            (await repository.Query("BabyWhiteCloud")).Should().HaveCountGreaterOrEqualTo(2);
         }
         [Fact]
         public async Task Should_update_the_same_BabyWhiteCloudCommand()
