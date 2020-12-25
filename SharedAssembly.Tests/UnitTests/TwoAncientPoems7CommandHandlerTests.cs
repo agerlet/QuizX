@@ -52,7 +52,7 @@ namespace SharedAssembly.Tests.UnitTests
             await handler.Handle(quizAnswerCommand2, CancellationToken.None);
             
             // Assert
-            (await repository.Query("TwoAncientPoems_7")).Should().HaveCount(2);
+            (await repository.Query("TwoAncientPoems_7")).Should().HaveCountGreaterOrEqualTo(2);
         }
         [Fact]
         public async Task Should_update_the_same_BabyWhiteCloudCommand()
