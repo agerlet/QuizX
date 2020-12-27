@@ -9,7 +9,14 @@ namespace SharedAssembly.Repositories
 {
     public class Repository
     {
+        private const string OverrideTableName = "QuizX";
         private readonly IDynamoDBContext _dynamoDbContext;
+        private static readonly DynamoDBOperationConfig DynamoDbOperationConfig = new()
+        {
+            Conversion = DynamoDBEntryConversion.V2,
+            IsEmptyStringValueEnabled = true,
+            OverrideTableName = OverrideTableName
+        };
 
         public Repository(IDynamoDBContext dynamoDbContext)
         {
@@ -18,13 +25,7 @@ namespace SharedAssembly.Repositories
         
         public async Task Save(QuizAnswerModel model)
         {
-            var dynamoDbOperationConfig = new DynamoDBOperationConfig
-            {
-                Conversion = DynamoDBEntryConversion.V2,
-                IsEmptyStringValueEnabled = true,
-                OverrideTableName = "QuizX"
-            };
-            await _dynamoDbContext.SaveAsync(model, dynamoDbOperationConfig);
+            await _dynamoDbContext.SaveAsync(model, DynamoDbOperationConfig);
         }
 
         public async Task<List<QuizAnswerModel>> Query(string quizId, string studentId = null)
@@ -37,12 +38,8 @@ namespace SharedAssembly.Repositories
             {
                 scanConditions.Add(new ScanCondition("StudentId", ScanOperator.Equal, studentId));
             }
-
-            var dynamoDbOperationConfig = new DynamoDBOperationConfig
-            {
-                OverrideTableName = "QuizX"
-            };
-            var search = _dynamoDbContext.ScanAsync<QuizAnswerModel>(scanConditions, dynamoDbOperationConfig);
+            
+            var search = _dynamoDbContext.ScanAsync<QuizAnswerModel>(scanConditions, DynamoDbOperationConfig);
             return await search.GetRemainingAsync();
         }
     }
