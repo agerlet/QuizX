@@ -443,3 +443,6 @@ $RECYCLE.BIN/
 
 student/build/
 teacher/build/
+
+## AWS SAM
+*/.aws-sam/build/
