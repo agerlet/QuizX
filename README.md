@@ -20,9 +20,14 @@ The QuizX comes with 4 parts:
 
 ### The Lambda Functions
 
-The Lambda Functions are .Net 5 Lambda Custom Runtime Functions to collect data from student portal and get ready to be queried by the teacher portal.
+The Lambda Functions are created by AWS SAM (Hello World Example) to collect data from student portal and get ready to be queried by the teacher portal.
 
-For more info, please find [this](./Teacher.Lambda/src/Teacher.Lambda/Readme.md) for teacher Lambda Function and [this](./Student.Lambda/src/Student.Lambda/Readme.md) for student Lambda Function.
+For more info, please find [this](./TeacherFunction/README.md) for teacher Lambda Function and [this](./StudentFunction/README.md) for student Lambda Function.
+
+    # In the sam folder, 
+    $ sam local start-api 
+
+For more info about AWS SAM CLI, please refer [AWS Documentation](https://docs.aws.amazon.com/serverless-application-model/)
 
 ### The student portal
 
@@ -36,7 +41,7 @@ The teacher portal is a react project to present the answers to the teacher.
 
 For more info, please find this [README.md](./teacher/README.md) for teacher portal.
 
-## Unit tests
+## Scripts
 
 Some of the unit tests reply on the docker container dynamodb-local. 
 

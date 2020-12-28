@@ -26,7 +26,6 @@ namespace TeacherFunction
             {
                 StatusCode = (int) HttpStatusCode.OK,
                 Body = JsonConvert.SerializeObject(quizAnswers),
-                //Body = JsonSerializer.Serialize(quizAnswers, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase}),
                 Headers = new Dictionary<string, string>
                 {
                     {"Content-Type", "application/json"},

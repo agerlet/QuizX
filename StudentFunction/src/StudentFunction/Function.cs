@@ -22,19 +22,6 @@ namespace StudentFunction
 
     public class Function
     {
-
-        private static readonly HttpClient client = new HttpClient();
-
-        private static async Task<string> GetCallingIP()
-        {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent", "AWS Lambda .Net Client");
-
-            var msg = await client.GetStringAsync("http://checkip.amazonaws.com/").ConfigureAwait(continueOnCapturedContext:false);
-
-            return msg.Replace("\n","");
-        }
-
         public async Task<APIGatewayProxyResponse> Handler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var provider = context.GetServiceProvider();
