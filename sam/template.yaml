@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  QuizX
+
+  SAM Template for QuizX
+
+Globals:
+  Function:
+    Runtime: dotnetcore3.1  # the workflow is the same as dotnetcore3.1. I guess that's why it works here.
+    MemorySize: 256
+    Timeout: 30
+    
+
+Resources:
+  TeacherFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: ../Teacher.Lambda/src/Teacher.Lambda/
+      Handler: bootstrap::Teacher.Lambda.Function::Handler
+      FunctionName: quizx-query-test
+      PackageType: Zip
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /quiz/{quizid}
+            Method: get
+            RestApiId:
+              Ref: QuizXApiGateway
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - QuizXWriteDynamoDB
+      
+
+  StudentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../Student.Lambda/src/Student.Lambda/
+      Handler: bootstrap::Student.Lambda.Function::Handler
+      FunctionName: quizx-answer-test
+      PackageType: Zip
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /quiz/
+            Method: post
+            RestApiId:
+              Ref: QuizXApiGateway
+      Policies:
+        - AWSLambdaDynamoDBExecutionRole
+        - QuizXWriteDynamoDB
+      
+      
+  QuizXApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: test
+
+
+  QuizXTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: QuizX-test
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: quizId
+          AttributeType: S
+        - AttributeName: studentId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: quizId
+          KeyType: HASH
+        - AttributeName: studentId
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+Outputs:
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
