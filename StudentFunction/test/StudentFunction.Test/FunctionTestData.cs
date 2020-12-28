@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using SharedAssembly.CommandHandlers;
 
-namespace lambda.Tests
+namespace StudentFunction.Tests
 {
     public class PostFunctionTestData : IEnumerable<object[]>
     {
-        private List<object[]> _data = new()
+        private List<object[]> _data = new List<object[]>()
         {
             new object[]
             {
