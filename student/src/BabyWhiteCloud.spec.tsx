@@ -10,7 +10,6 @@ test('renders quiz options', () => {
 
 test('renders quiz body', () => {
   render(<BabyWhiteCloud />);
-  render(<BabyWhiteCloud />);
   const quizBody = screen.getByTestId(/body/i);
   expect(quizBody).toBeInTheDocument();
 });

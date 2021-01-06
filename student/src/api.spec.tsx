@@ -20,7 +20,7 @@ it('should post the answers', async () => {
         'headers': {
             'Content-Type': 'application/json'
         },
-        'url': 'https://localhost:5001/api/quiz'
+        'url': 'http://localhost:5000/api/quiz'
     }));
     expect(result.data.answer).toStrictEqual(answer);
     

@@ -40,7 +40,7 @@ it('should call api with correct url', async () => {
     // Assert
     expect(apiRequest).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://localhost:5001/api/quiz/BabyWhiteCloud`,
+        url: `http://localhost:5000/api/quiz/BabyWhiteCloud`,
       })
     );
 

@@ -73,7 +73,7 @@ describe('two ancient poems', () => {
         // Assert
         expect(element).toBeInTheDocument();
         expect(element).not.toBeEmptyDOMElement();
-        expect(element).toHaveTextContent("a, b, c, d, e");
+        expect(element).toHaveTextContent("ab, cd");
     });
 
     it("renders the students elapse field", async () => {
@@ -143,6 +143,5 @@ describe('two ancient poems', () => {
 
         // Assert
         expect(element).toBeInTheDocument();
-        expect(element).toBeEmptyDOMElement();
     });
 })
